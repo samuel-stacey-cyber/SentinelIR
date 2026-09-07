@@ -132,47 +132,47 @@ This design was selected to improve maintainability, testability, and extensibil
 
 ## 3.4 Implementation Method
 
-
+This section explains how the main technical components of SentinelIR were implemented. The focus is not only on what each component does, but also on the design decisions used to keep the system modular, reusable, testable, and suitable for future expansion. Each subsection describes a major implementation area and how it contributes to the wider investigation workflow.
 
 ### 3.4.1 Log Parsing
 
-
+asd
 
 ### 3.4.2 Structured Event Modelling
 
-
+asd
 
 ### 3.4.3 Filtering
 
-
+asd
 
 ### 3.4.4 Detection Logic
 
-
+asd
 
 ### 3.4.5 Live Monitoring
 
-
+asd
 
 ### 3.4.6 Alert Cooldown And Persistence
 
-
+asd
 
 ### 3.4.7 Scenario Generation
 
-
+asd
 
 ### 3.4.8 Service Layer
 
-
+asd
 
 ### 3.4.9 Safe File Handling
 
-
+asd
 
 ### 3.4.10 API And Web Integration
 
-
+asd
 
 ## 3.5 Testing Strategy
 
