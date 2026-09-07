@@ -4,8 +4,6 @@ SentinelIR is a Python-based incident response and SOC investigation toolkit for
 
 The project is being developed as a final-year cybersecurity dissertation and is currently centred on a stable CLI backend, reusable service interfaces, and preparation for a FastAPI/Web UI layer.
 
----
-
 # Overview
 
 SentinelIR focuses on helping a security analyst investigate authentication-based activity such as:
@@ -20,8 +18,6 @@ SentinelIR focuses on helping a security analyst investigate authentication-base
 
 The long-term direction is to expand SentinelIR into a broader investigation platform that can support log analysis, file triage, hash/signature scanning, IOC enrichment, and a future web UI / SOC-style dashboard.
 
----
-
 # Project Goals
 
 SentinelIR aims to provide a lightweight, explainable security-analysis workflow that can:
@@ -34,8 +30,6 @@ SentinelIR aims to provide a lightweight, explainable security-analysis workflow
 - Generate repeatable test scenarios
 - Export investigation results
 - Expose the same backend through CLI, API, and future Web UI interfaces
-
----
 
 # Supported Log Sources
 
@@ -71,8 +65,6 @@ HTTP parser support extracts login-oriented request information where available,
 
 Unsupported or malformed lines are ignored safely rather than being forced into an invalid event.
 
----
-
 # Parser Design
 
 SentinelIR separates parser identification, routing, validation, and structured event creation.
@@ -95,6 +87,12 @@ flowchart LR
     H -->|Malformed| G
 
     I --> J[Log Analyser]
+
+    classDef boldBox stroke-width:3px,font-weight:bold;
+
+    class A,B,C,D,E,F,G,H,I,J boldBox;
+
+    linkStyle default stroke-width:3px;
 ```
 
 ## Identification
@@ -112,8 +110,6 @@ Each parser validates the fields required to build a usable event. Missing requi
 ## Structured Event Creation
 
 Valid lines are converted into `LogEntry` objects so filtering, detection, reporting, and live monitoring work against a common model rather than raw text.
-
----
 
 # Filtering Design
 
@@ -150,9 +146,13 @@ flowchart LR
 
     I --> J[CLI Reporting]
     I --> K[Structured Backend Results]
-```
 
----
+    classDef boldBox stroke-width:3px,font-weight:bold;
+
+    class A,B,C,D,E,F,G,H,I,J,K boldBox;
+
+    linkStyle default stroke-width:3px;
+```
 
 # Detection Design
 
@@ -193,6 +193,12 @@ flowchart TD
 
     M --> N[Terminal]
     M --> O[Persistent Alert Log]
+
+    classDef boldBox stroke-width:3px,font-weight:bold;
+
+    class A,B,C,D,E,F,G,H,I,J,K,L,M boldBox;
+
+    linkStyle default stroke-width:3px;
 ```
 
 ## Cooldown behaviour
@@ -202,8 +208,6 @@ Live detections keep alert state so repeated events do not continuously produce 
 ## Persistent Alerts
 
 Live alerts can be written to the shared application alert-log path, allowing detection history to survive beyond terminal output.
-
----
 
 # Structured Results
 
@@ -233,15 +237,13 @@ The structured detection result groups:
 
 These models are intended for reuse by the CLI, service layer, and future API.
 
----
-
 # Service Layer
 
 A small service layer sits between user-facing interfaces and the existing backend.
 
 Current service responsibilities are intentionally narrow:
 
-Service | Responsibility |
+| Service | Responsibility |
 |---|---|
 | `AnalysisService` | Coordinates analysis and structured analysis results |
 | `DetectionService` | Coordinates reusable detection results |
@@ -249,8 +251,6 @@ Service | Responsibility |
 | `ExportService` | Coordinates safe report-export handling |
 
 The services do not replace the existing parser, analyser, detection, or reporting code. They provide a stable interface that the CLI and future FastAPI routes can share.
-
----
 
 # Architecture
 
@@ -294,9 +294,12 @@ flowchart TD
     T --> J
 
     J --> U[Persistent Alerts]
-```
+    classDef boldBox stroke-width:3px,font-weight:bold;
 
----
+    class A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U boldBox;
+
+    linkStyle default stroke-width:3px;
+```
 
 # Safe Paths and File Validation
 
@@ -321,8 +324,6 @@ Input-file validation checks:
 - Attempts to escape the configured log directory
 
 Export validation checks report filenames and prevents output from being written outside the approved reports directory.
-
----
 
 # CLI
 
@@ -388,8 +389,6 @@ Current reporting capabilities include:
 - TXT export
 - JSON export
 
----
-
 # Installation
 
 SentinelIR provides a one-command project installer.
@@ -409,8 +408,6 @@ Manual activation is also possible:
 source .venv/bin/activate
 ```
 
----
-
 # Configuration
 
 Runtime configuration is stored in:
@@ -428,8 +425,6 @@ Configuration is used for values such as:
 - Detection settings
 
 Configuration loading is centralised so interfaces do not need to duplicate path handling.
-
----
 
 # Testing and Code Quality
 
@@ -451,8 +446,6 @@ pytest
 ```
 
 The GitHub Actions workflow runs quality checks on pushed branches and pull requests so changes can be validated before merging into `main`.
-
----
 
 # Project Structure
 
@@ -522,8 +515,6 @@ Protected main branch
 
 This supports traceability between project issues, code changes, tests, and dissertation evidence.
 
----
-
 # Research And Dissertation Direction
 
 SentinelIR is also being used as the implementation artefact for a cybersecurity dissertation.
@@ -576,8 +567,6 @@ This can support evaluation of:
 - Malformed-input handling
 - Performance
 
----
-
 # Roadmap
 
 ## Completed / Stable Foundation
@@ -628,8 +617,6 @@ This can support evaluation of:
 - Desktop GUI development if it remains useful;
 - Additional CLI convenience features.
 
----
-
 # Limitations
 
 Current limitations include:
@@ -640,8 +627,6 @@ Current limitations include:
 - The Web UI is not yet implemented;
 - The desktop GUI is not the primary supported interface;
 - Current evaluation is still being developed.
-
----
 
 # Design Principles
 
@@ -656,7 +641,5 @@ SentinelIR currently prioritises:
 - Minimal duplication between interfaces;
 - Incremental development;
 - Traceable engineering decisions.
-
----
 
 SentinelIR is under active development as both a cybersecurity investigation toolkit and a final-year dissertation implementation artefact.
