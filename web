@@ -1,17 +1,31 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-set -e
+import threading
+import webbrowser
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+import uvicorn
 
-cd "$SCRIPT_DIR"
 
-PYTHON="$SCRIPT_DIR/.venv/bin/python"
+def open_browser() -> None:
+    """
+    Opens the SentinelIR web interface in the user's default browser.
+    """
+    webbrowser.open("http://127.0.0.1:8000/")
 
-if [[ ! -x "$PYTHON" ]]; then
-    echo "SentinelIR is not installed."
-    echo "Run: ./install.sh"
-    exit 1
-fi
 
-"$PYTHON" -m app.cli.web "$@"
+def main() -> None:
+    """
+    Starts the SentinelIR FastAPI web application and opens the browser.
+    """
+    threading.Timer(1.0, open_browser).start()
+
+    uvicorn.run(
+        "app.api.main:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True
+    )
+
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,7 @@
 annotated-doc==0.0.5
 annotated-types==0.8.0
 anyio==4.15.1
+certifi==2026.7.22
 cfgv==3.5.0
 click==8.5.0
 colorama==0.4.6
@@ -9,6 +10,8 @@ fastapi==0.141.1
 filelock==3.32.5
 flake8==7.3.0
 h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
 identify==2.6.19
 idna==3.19
 iniconfig==2.3.0
@@ -28,7 +31,7 @@ PySide6_Essentials==6.11.1
 pytest==7.4.4
 python-discovery==1.6.0
 PyYAML==6.0.3
--e git+https://github.com/Pixsl-Labs/Log-Analyser.git@3da5c3372a60a1896b3b9f790742ab6e7240ee39#egg=sentinelir
+-e git+https://github.com/Pixsl-Labs/Log-Analyser.git@9db7c6ef19ca82de5dc51adc2e10d941f749398c#egg=sentinelir
 shiboken6==6.11.1
 starlette==1.6.0
 typing-inspection==0.4.4
