@@ -21,11 +21,11 @@ The study currently proposes two comparisons:
 
 | Document | Purpose |
 | --- | --- |
-| Working research question | Current preferred question, sub-questions, definitions and proposed evaluation |
-| Questions for supervisor | Feedback requested on scope, evaluation and next steps |
-| Open decisions | Current preferences and unresolved design decisions |
-| Feature brainstorming | Proposed alert investigation and response-guidance feature |
-| Research-question shortlist | Alternative directions considered before selecting the current question |
+| [Working research question](research_question/work-question.md) | Current preferred question, sub-questions, definitions and proposed evaluation |
+| [Questions for supervisor](research_question/questions_i_have.md) | Feedback requested on scope, evaluation and next steps |
+| [Open decisions](research_question/open-decisions.md) | Current preferences and unresolved design decisions |
+| [Feature brainstorming](brainstorming.md) | Proposed alert investigation and response-guidance feature |
+| [Research-question shortlist](research_question/shortlist.md) | Alternative directions considered before selecting the current question |
 
 ## Earlier Ideas and Supporting Material
 
