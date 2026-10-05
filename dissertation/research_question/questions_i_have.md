@@ -5,12 +5,12 @@ I would appreciate feedback on the current research direction, particularly whet
 ## Current Research Question
 
 ```text
-To what extent can log evidence and evidence-linked response guidance improve the detection of web authentication attacks and the quality of response plans in a controlled environment?
+How does combining HTTP access and application authentication logs affect SentinelIR’s detection of selected web authentication attack behaviours, and how does evidence-linked guidance affect users’ response-plan quality in a controlled environment?
 ```
 
 My current proposal is to compare detection using HTTP access logs alone against detection using both access logs and application authentication logs.
 
-For response planning, I propose presenting equivalent alert evidence with and without investigation and response guidance, then assessing the resulting plans using predefined criteria.
+For response planning, I propose presenting equivalent alert evidence with and without investigation and response guidance, then assessing the technical appropriateness and completeness of the resulting plans using predefined criteria.
 
 ## Priority Questions
 
@@ -34,7 +34,7 @@ What would distinguish a sufficiently original and insightful investigation from
 
 ### 4. How should response-plan quality be assessed?
 
-Would a rubric covering technical appropriateness, completeness, relevance and clarity be suitable?
+Would a rubric with technical appropriateness and completeness as the primary criteria, and relevance and clarity as supporting criteria, be suitable?
 
 How should I justify and validate the criteria, account for multiple acceptable responses, and reduce subjectivity when scoring plans?
 

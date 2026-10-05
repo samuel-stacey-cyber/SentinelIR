@@ -1,34 +1,28 @@
 # SentinelIR - Working Research Question
 
-This document records the current working research direction. The wording is subject to refinement until it has been checked against the literature, ethics requirements, technical feasibility and supervisor feedback.
-
 ## Preferred Research Direction
 
 SentinelIR will be investigated as a command-line security-log analysis tool that detects selected web authentication attack behaviours and provides evidence-linked investigation and response guidance.
 
 The study will examine both:
 
-1. Whether log evidence improves detection correctness.
-2. Whether evidence-linked guidance improves the quality of user response plans.
+1. How combining log sources affects detection precision and recall.
+2. How evidence-linked guidance affects the technical appropriateness and completeness of user response plans.
 
 The vulnerable web application or CTF environment will be used to generate controlled activity and realistic logs. It is an evaluation environment rather than the main software artifact.
 
 ## Main Research Question
 
 ```text
-To what extent can log evidence and evidence-linked response guidance improve the detection of web authentication attacks and the quality of response plans in a controlled environment?
+How does combining HTTP access and application authentication logs affect SentinelIR’s detection of selected web authentication attack behaviours, and how does evidence-linked guidance affect users’ response-plan quality in a controlled environment?
 ```
-
-This is the central research question for the SentinelIR dissertation. The project will investigate both the technical reliability of SentinelIR’s detections and the usefulness of the information and guidance provided after an alert.
-
-In this dissertation, web authentication attacks refers to a small, explicitly defined set of authentication-related attack behaviours rather than every possible web vulnerability.
 
 ## Definitions
 
 - **Log evidence** means the information available in HTTP access logs and relevant application authentication logs.
 - **Selected web authentication attack behaviours** means a defined set of behaviours, such as repeated authentication failures and repeated failures followed by a successful login.
 - **Evidence-linked response guidance** means guidance connected to the detected activity and supporting log evidence, including investigation steps, conditional response actions and prevention suggestions.
-- **Response-plan quality** means the technical appropriateness, completeness, relevance and clarity of a proposed plan, assessed using predefined criteria.
+- **Response-plan quality** means the technical appropriateness and completeness of a proposed plan, assessed using predefined criteria. Relevance and clarity may be included as supporting criteria.
 - **Controlled environment** means an authorised laboratory or CTF-style environment in which the activity, services, logging configuration and ground truth can be documented.
 
 ## Sub-Questions
@@ -36,7 +30,7 @@ In this dissertation, web authentication attacks refers to a small, explicitly d
 ### RQ1 - Log Evidence and Detection Correctness
 
 ```text
-To what extent does combining HTTP access logs with application authentication logs improve SentinelIR’s detection of selected web authentication attack behaviours?
+How does combining HTTP access logs with application authentication logs affect the precision and recall of SentinelIR’s detection of selected web authentication attack behaviours compared with using HTTP access logs alone?
 ```
 
 This sub-question will compare:
@@ -44,12 +38,10 @@ This sub-question will compare:
 - Detection using HTTP access logs alone.
 - Detection using HTTP access logs combined with application authentication logs.
 
-Both configurations will be evaluated against the same underlying activity.
+Measures include:
 
-Potential measures include:
-
-- Precision
-- Recall
+- Precision (primary measure)
+- Recall (primary measure)
 - False-alert frequency
 - Missed detections
 - Parsing and event-representation coverage
@@ -57,7 +49,7 @@ Potential measures include:
 ### RQ2 - Evidence-Linked Guidance and Response-Plan Quality
 
 ```text
-To what extent does evidence-linked investigation and response guidance improve the quality of response plans produced in response to SentinelIR alerts?
+How does providing evidence-linked investigation and response guidance alongside SentinelIR alerts affect the technical appropriateness and completeness of users’ response plans compared with presenting equivalent alert evidence without guidance?
 ```
 
 This sub-question will compare response plans produced from:
@@ -65,15 +57,15 @@ This sub-question will compare response plans produced from:
 - Alerts containing the relevant contextual evidence, without investigation or response guidance.
 - Alerts containing equivalent contextual evidence, with evidence-linked investigation and response guidance.
 
-Both conditions will provide access to the same underlying scenario information. This will help assess the additional contribution of guidance without confusing it with differences in the evidence available.
+The response plans produced by users will be assessed for technical appropriateness and completeness using predefined criteria.
 
 # Connected Evaluation Dimensions
 
 The study will examine three connected aspects of SentinelIR:
 
-1. **Detection correctness**: whether combining log sources improves detection performance compared with using HTTP access logs alone.
+1. **Detection correctness**: how combining log sources affects detection precision and recall compared with using HTTP access logs alone.
 2. **Guidance quality**: whether the recommendations are technically appropriate, supported by the available evidence, relevant to the scenario and clear about uncertainty.
-3. **Response-plan quality**: whether adding evidence-linked guidance helps users produce more appropriate and complete response plans compared with receiving the same contextual evidence without guidance.
+3. **Response-plan quality**: how adding evidence-linked guidance affects the technical appropriateness and completeness of users’ response plans compared with receiving the same contextual evidence without guidance.
 
 # Proposed Evaluation Structure
 
@@ -102,14 +94,3 @@ The dissertation will:
 - Keep automated response execution as future work.
 - Keep the web UI, database, multi-user accounts, phone integration and multi-node deployment outside the dissertation implementation.
 - Avoid claiming that SentinelIR detects all web vulnerabilities.
-
-# Current Status
-
-This is the current working research question and structure. It should now be tested against:
-
-- Relevant academic and professional literature.
-- The feasibility of collecting both log sources.
-- The availability of suitable controlled scenarios.
-- The ethics requirements for any participant research.
-- The time available for implementation, evaluation and dissertation writing.
-- Supervisor feedback.

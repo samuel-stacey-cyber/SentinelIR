@@ -1,0 +1,9 @@
+# Literature Review Matrix
+
+This matrix summarises sources relevant to SentinelIR’s research questions. Detailed notes and supporting page references are stored in `reading_notes/`.
+
+Status indicates whether a source has only been screened or has been read in sufficient detail to support the entry.
+
+| ID | Theme | Status | Method, Data and Comparison | Main Finding | Strengths and Limitations | Implication for SentinelIR |
+| :-: | --- | --- | --- | --- | --- | --- |
+| P01 | Alert Investigation Process | Almost Finished | Two think-aloud studies investigating what information T1 analysts collected and the actions they took. ES1: five analysts, 200 unique alerts and 400 investigations without AISS. ES2: four different analysts, 18 alerts taken from ES1 and 36 investigations with AISS. Compared the information collected, order of actions and number of actions taken. | With AISS, analysts collected relevance indicators and information about related alerts more consistently. They took fewer actions when investigating alerts classified as Att. There was no significant reduction in actions for NAtt alerts, so the benefit was not the same for every alert type. | Strengths: used practising analysts, reused alert evidence for comparison and checked agreement between transcript coders. Limitations: small participant sample from one SOC; different analysts took part in each study, roughly a year apart; ES2 used fewer alerts. Repeated investigations do not represent additional independent participants. | Mainly relevant to RQ2: useful for thinking about how SentinelIR could organise evidence and guide investigation. Does not establish that guidance improves response-plan quality, so I need to assess that directly. For RQ1, it does not test whether combining access and authentication logs improves detection. |
