@@ -26,8 +26,8 @@ Do not invent search terms or confuse the publication date with the search date.
 Complete this before committing to a detailed read.
 
 - Which part of SentinelIR does it relate to?
-  - RQ1 — Detection using combined logs
-  - RQ2 — Investigation and response guidance
+  - RQ1 — Detection using combined logs           Relevance /10?
+  - RQ2 — Investigation and response guidance     Relevance /10?
   - Evaluation methods
   - Background / definitions
 
