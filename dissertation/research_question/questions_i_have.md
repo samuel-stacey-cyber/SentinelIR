@@ -1,28 +1,32 @@
 # Questions for My Supervisor
 
-I would appreciate feedback on the current research direction, particularly whether the combined detection and response-guidance study is feasible within the dissertation.
+I would appreciate feedback on the current research direction, particularly how the literature comparison should inform the detection and response-guidance evaluations.
 
 ## Current Research Question
 
 ```text
-To what extent can log evidence and evidence-linked response guidance improve the detection of web authentication attacks and the quality of response plans in a controlled environment?
+How does combining HTTP access and application authentication logs affect SentinelIR’s detection of selected web authentication attack behaviours, and how does evidence-linked guidance affect users’ response-plan quality in a controlled environment?
 ```
 
-My current proposal is to compare detection using HTTP access logs alone against detection using both access logs and application authentication logs.
+RQ1 will examine limitations in existing approaches and how they inform SentinelIR’s design and evaluation.
 
-For response planning, I propose presenting equivalent alert evidence with and without investigation and response guidance, then assessing the resulting plans using predefined criteria.
+For RQ2, my current proposal is to compare detection using HTTP access logs alone against detection using both access logs and application authentication logs.
+
+For RQ3 response planning, I propose presenting equivalent alert evidence with and without investigation and response guidance, then assessing the technical appropriateness and completeness of the resulting plans using predefined criteria.
 
 ## Priority Questions
 
-### 1. Is the combined scope appropriate?
+### 1. Is the literature comparison sufficiently focused?
 
-Is it realistic to investigate both detection correctness and response-plan quality within this dissertation?
+Does the new RQ1 capture the limitations review and justification discussed in our meeting?
 
-Would you recommend using both sub-questions, or making detection the main investigation and evaluating guidance on a smaller scale?
+What limitations in existing approaches to web authentication attack detection and alert investigation can inform the design and evaluation of SentinelIR?
+
+How much depth should the comparison cover across detection methods and alert investigation approaches?
 
 ### 2. Are the proposed comparisons suitable?
 
-Would the two comparisons described above provide a sound basis for answering the research question?
+Would the two experimental comparisons described above provide a sound basis for answering RQ2 and RQ3?
 
 Are there particular assumptions or sources of bias I should address before developing the experimental design?
 
@@ -34,7 +38,7 @@ What would distinguish a sufficiently original and insightful investigation from
 
 ### 4. How should response-plan quality be assessed?
 
-Would a rubric covering technical appropriateness, completeness, relevance and clarity be suitable?
+Would a rubric with technical appropriateness and completeness as the primary criteria, and relevance and clarity as supporting criteria, be suitable?
 
 How should I justify and validate the criteria, account for multiple acceptable responses, and reduce subjectivity when scoring plans?
 
@@ -84,9 +88,9 @@ Are there particular papers, research areas or methodological approaches you rec
 
 ## Notes Following Feedback
 
-- **Agreed research direction:**
-- **Changes to the question or scope:**
-- **Literature to investigate:**
+- **Agreed research direction:** Meeting on 8 October 2026 -> Kabiru advised retaining the two existing questions and adding a third covering limitations in other papers and the reasoning behind SentinelIR.
+- **Changes to the question or scope:** Literature and design justification becomes RQ1, detection becomes RQ2 and response guidance becomes RQ3. Exact new wording drafted after the meeting -> still to confirm with Kabiru.
+- **Literature to investigate:** Continue reviewing relevant papers and comparing limitations -> use these to justify design and evaluation choices. Kabiru advised that I can begin the introduction and literature review.
 - **Selected scenarios:**
 - **Response-plan evaluation approach:**
 - **Participant arrangements and fallback:**

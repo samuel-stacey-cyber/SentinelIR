@@ -9,18 +9,20 @@ The documents are work in progress and are being refined through literature revi
 ## Current Research Question
 
 ```text
-To what extent can log evidence and evidence-linked response guidance improve the detection of web authentication attacks and the quality of response plans in a controlled environment?
+How does combining HTTP access and application authentication logs affect SentinelIR’s detection of selected web authentication attack behaviours, and how does evidence-linked guidance affect users’ response-plan quality in a controlled environment?
 ```
 
-The study currently proposes two comparisons:
+The study has three sub-questions:
 
-1. **Detection**: HTTP access logs alone compared with HTTP access logs combined with application authentication logs.
-2. **Response planning**: alerts containing equivalent contextual evidence, with and without investigation and response guidance.
+1. **RQ1 - Literature and design justification**: critically compare limitations in existing approaches and explain how they inform SentinelIR’s design and evaluation.
+2. **RQ2 - Detection**: HTTP access logs alone compared with HTTP access logs combined with application authentication logs.
+3. **RQ3 - Response planning**: alerts containing equivalent contextual evidence, with and without investigation and response guidance.
 
 ## Suggested Reading Order
 
 | Document | Purpose |
 | --- | --- |
+| [Current research questions](research_question/final_question.md) | Main question and three sub-questions |
 | [Working research question](research_question/work-question.md) | Current preferred question, sub-questions, definitions and proposed evaluation |
 | [Questions for supervisor](research_question/questions_i_have.md) | Feedback requested on scope, evaluation and next steps |
 | [Open decisions](research_question/open-decisions.md) | Current preferences and unresolved design decisions |
@@ -39,8 +41,9 @@ Despite its filename, `process/final.md` is an earlier development document. The
 
 ## Current Next Steps
 
-- Obtain feedback on the research question and feasibility of the combined study.
-- Begin a focused literature review covering authentication-log analysis and alert investigation support.
+- Follow up on Kabiru’s feedback from 8 October 2026 -> retain detection and guidance questions + add a literature and design justification question.
+- Continue the literature review -> compare detection methods, log evidence, limitations and alert investigation support.
+- Start drafting the introduction and literature review, linking claims to the papers reviewed.
 - Define a small set of malicious and benign evaluation scenarios.
 - Establish how detection results and response plans will be assessed.
 - Develop CW1 and progress the required ethics application.
