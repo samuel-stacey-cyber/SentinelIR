@@ -12,9 +12,9 @@ TEMPLATES_DIR = Path("app/web/templates")
 @router.get("/")
 def login_page() -> FileResponse:
     """
-    Returns the SentinelIR login page.
+    Returns the SentinelIR base page.
 
     Returns:
-        FileResponse: The login HTML page.
+        FileResponse: The base HTML page.
     """
-    return FileResponse(TEMPLATES_DIR / "login.html")
+    return FileResponse(TEMPLATES_DIR / "base.html")

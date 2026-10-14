@@ -6,16 +6,16 @@ SentinelIR will be investigated as a command-line security-log analysis tool tha
 
 The study will examine three areas:
 
-1. How limitations in existing approaches inform SentinelIR’s design and evaluation.
-2. How combining log sources affects detection precision and recall.
-3. How evidence-linked guidance affects the technical appropriateness and completeness of user response plans.
+1. How limitations in existing approaches inform SentinelIR, a HTTP log analyser, design and evaluation.
+2. How combining log sources affects detection precision and recall of SentinelIR, a HTTP log analyser.
+3. How evidence-linked guidance affects the technical appropriateness and completeness of user response plans of SentinelIR, a HTTP log analyser.
 
 The vulnerable web application or CTF environment will be used to generate controlled activity and realistic logs. It is an evaluation environment rather than the main software artifact.
 
 ## Main Research Question
 
 ```text
-How does combining HTTP access and application authentication logs affect SentinelIR’s detection of selected web authentication attack behaviours, and how does evidence-linked guidance affect users’ response-plan quality in a controlled environment?
+How does combining HTTP access and application authentication logs affect SentinelIR’s, a HTTP log analyser, detection of selected web authentication attack behaviours, and how does evidence-linked guidance affect users’ response-plan quality in a controlled environment?
 ```
 
 ## Definitions

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}SentinelIR{% endblock %}</title>
+
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/sidebar.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <div class="app-shell">
+
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h1>SentinelIR</h1>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/dashboard">Overview</a>
+                <a href="/analyse">Analyse</a>
+                <a href="/monitor">Live Monitor</a>
+                <a href="/detections">Detections</a>
+                <a href="/investigations">Investigations</a>
+                <a href="/reports">Reports</a>
+                <a href="/systems">Connected Systems</a>
+                <a href="/settings">Settings</a>
+                <a href="/account">Account</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <h2>{% block page_title %}Dashboard{% endblock %}</h2>
+                </div>
+
+                <div class="topbar-actions">
+                    {% block topbar_actions %}{% endblock %}
+                </div>
+            </header>
+
+            <section class="page-content">
+                {% block content %}{% endblock %}
+            </section>
+        </main>
+
+    </div>
+
+    <script src="/static/js/app.js"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
