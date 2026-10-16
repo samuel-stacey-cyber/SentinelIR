@@ -164,3 +164,68 @@ Another mention of `F1-score` will definitely need to try to incorporate this!
 `Security Orchestration, Automation, and Response (SOAR) systems` -> end-to-end automation of the incident response lifecycle
 
 ## P05
+First use case of `APA referencing`
+`CDC` -> `Cyber Defence Centres` -> SOC
+Major incidents:
+- Data breaches
+- DDoS attacks
+- Malware campaigns -> new one!
+SOC criteria:
+- Threat intelligence
+- Prioritization
+- Resolution
+- External communication
+- Solution:
+  - Adaptation of tools + methods -> improving both `performance` + `quality`
+`TIBER-EU framework` -> ??? -> https://www.ecb.europa.eu/pub/pdf/other/ecb.tiber_eu_framework.en.pdf
+`Cybersecurity Threat and Incident Managers (CTIMs)`
+Aiming to speed up threat incident management -> providing relevant `cues` + `triggers` -> reducing flaws + mistakes!
+- `Applied Cognitive Task Analysis` -> ???
+- `Cognitive task analysis (CTA) ` -> Ooo really useful for gauging and comparing the differences in terms of both `knowledge` + `strategies`!!! + `Cognitive work analysis (CWA)`
+Could potentially hold some interviews as well??? More data???
+Potentially speak about how the dataset/knowledge of incident support can be turned into workshops employers can use???
+Comparison / discussion around how `most` organizations focus on ISM!
+SOC operator breakdown:
+- Level 1 & 2:
+  - First / second analysis of events
+  - Tasked with:
+    - Making the first assessment
+    - Triage the problem
+    - Generate context used for a `ticketing system`
+    - Directly respond to `low-criticality incidents`
+    - Determination of whether an incident is real or it is a `false positive`
+    - Identify alerts that require a follow-up!
+- Level 3:
+  - Usually follows up on the alert identified by the lower operators
+  - Due to having more experience with process + analytical tools
+- Team within the SOC:
+  - Investigation into the provided alert + from other sources: `vendors` + `external stakeholders`
+  - Gauges whether action is required?
+`Decision Support Systems (DSSes)` -> supporting + improving decision-making
+Support decision processes:
+- Security standards
+- Training resources
+- Vulnerability databases
+- Best practices
+- Catalogues of security controls
+- Security checklists
+- Benchmarks
+- Threat information feeds + reports
+`Personal DSSes`:
+- Playbook:
+  - Linear style checklist of required steps and actions required to successfully respond to specific incident types and threats
+- Critical Incident Plans (`CIPs`):
+  - Incident response policy and procedure for responders allowing them to have the capacity to respond appropriately in the event of a critical incident
+  - Goal: Return to normal as quickly as possible after the incident; and to limit the effects of the incident on operations and any parties affected by the incident
+`Applied Cognitive Task Analysis (ACTA) approach` -> used to understand methods and techniques for uncovering knowledge and cognitive strategies -> consisting of three activities:
+- Task diagram
+- Knowledge audit
+- Simulation interview
+`Thematic analysis`!
+CWA is `mostly bound by the highly influential approach`
+`tabular abstraction hierarchy`
+`dialectical inquiry approach`
+`Decision ladder`
+Playbooks are insufficient for the needs of SOC's
+SOC's deal with so many factors -> difficult to balance them all at once!
+`Is a new role needed within a SOC?`
