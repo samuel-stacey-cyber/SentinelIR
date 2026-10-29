@@ -18,6 +18,10 @@ The study has three sub-questions:
 2. **RQ2 - Detection**: HTTP access logs alone compared with HTTP access logs combined with application authentication logs.
 3. **RQ3 - Response planning**: alerts containing equivalent contextual evidence, with and without investigation and response guidance.
 
+## CTF proposal for review
+
+Start with the [CTF overview](CTF/README.md). It links to the challenge route, setup, evaluation and questions for Kabiru. Earlier decision notes are preserved under `CTF/archive/`.
+
 ## Suggested Reading Order
 
 | Document | Purpose |
