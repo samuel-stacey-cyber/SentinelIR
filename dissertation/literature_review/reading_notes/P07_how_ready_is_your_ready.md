@@ -1,0 +1,981 @@
+# P07 — `How Ready is Your Ready? Assessing the Usability of Incident Response Playbook Frameworks`
+
+## Reference and Reading Status
+
+- Authors: `Stevens, Rock`, `Votipka, Daniel`, `Dykstra, Josiah`, `Tomlinson, Fernando`, `Quartararo, Erin`, `Ahern, Colin`, `Mazurek, Michelle L.`
+- Year: 2022
+- Venue: `CHI Conference on Human Factors in Computing Systems (CHI ’22)`
+- Source type: `Peer-reviewed conference paper`
+- DOI / link: https://doi.org/10.1145/3491102.3517559
+- Reading status: `Read fully, useful!`
+- Sections read: `Completely READ + HIGHTLIGHTED!`
+- Date notes last updated: 28/10/2026
+
+## Discovery
+
+- Search date: 27/10/2026
+- Search platform / discovery method: `ACM`
+- Exact search terms, if applicable: `decision support incident response evaluation`
+- Search log entry: 07
+
+## Initial Screening — Is It Worth Reviewing?
+
+Keep this brief -> shorten or remove once the decision is recorded.
+
+- Which part of SentinelIR does it relate to?
+  - RQ1 — Literature and design justification: 7/10
+    - Useful for identifying limitations in existing incident-response support
+    - Shows how missing detail, unclear triggers + communication gaps affect playbook use
+    - Helps justify SentinelIR's guidance design + evaluation approach
+  - RQ2 — Detection using combined logs: 1/10
+    - Includes brute-force + credential-misuse scenarios
+    - However, does not compare access-only logs against combined authentication logs
+    - No direct evidence for whether combining logs improves detection precision + recall
+  - RQ3 — Investigation and response guidance: 9/10
+    - Very useful for understanding benefits + limitations of support for SOC analysts
+    - Shows how to assess plans for completeness + accuracy
+    - Useful examples of surveys, interviews + observed incident-response exercises
+    - Separates what participants thought from expert assessments + actual behaviour
+    - Useful comparison for how support was developed, presented + evaluated
+    - However, does not directly compare equivalent evidence with/without guidance
+- What could this paper help me understand or decide?
+  - How much practical detail users might need
+  - How to make the alert trigger + intended response clear
+  - How to assess response-plan quality separately from perceived usefulness
+  - Why guidance should be piloted with the intended users
+- Decision: `Keep for detailed reading -> completed sufficiently for review`
+- Reason for decision:
+  - Strong relevance to RQ3 + useful design justification for RQ1
+  - Includes expert assessment of plans and observations of their use
+  - Provides practical evaluation ideas, while leaving SentinelIR's own comparison untested
+
+## Definitions, Abbreviations and Measures
+
+Add terms as they appear -> explain in my own words; only keep what helps me understand or use the paper.
+
+- Term / abbreviation:
+  - Introduction:
+    - `Digital security playbooks`
+      - Structured action plans for incident responses
+      - Designed to help organisations prepare, respond quickly + appropriately
+      - As incidents can disrupt analysts `cognitive abilities`
+      - Presenting best practices + generate momentum during incident responses
+      - Focused on:
+        - High-value systems
+        - Conducting investigations
+        - Keeping defensive systems up to date!
+      - Benefits:
+        - Checklists are useful!
+        - Communication templates!
+    - `Cybersecurity and Infrastructure Security Agency (CISA)`
+  - Background and Preliminaries:
+    - `Integrated Adaptive Cyber Defense (IACD)` framework:
+      - Defines features using visual flowcharts
+      - Essential response actions for humans + automated systems
+      - Breaks the playbook down into 10 steps:
+        - 1st:
+          - Identify the initiating condition (event / situation to trigger the playbook's use)
+          - How that event is detected
+        - 2nd:
+          - List all possible actions that could occur in the response
+          - Normally via mind mapping
+        - 3rd:
+          - Each action is the identified as:
+            - Required or
+            - Optional
+        - 4th-8th:
+          - Grouping actions by function
+          - Ordering required actions sequentially
+          - Interleaving optional actions where appropriate
+        - 9th:
+          - Verifies that the playbook terminates either:
+            - In a desired end state
+            - Or in a new initiating condition that flows into another playbook
+        - 10th:
+          - Ensures that the playbook satisfies:
+            - Applicable regulatory controls
+            - And requirements
+    - `NIST` framework:
+      - Focuses on quickly recovering after an incident
+      - Providing:
+        - Detailed textual descriptions
+        - Intended for institutional procedures / best practices
+      - Designers break the playbook down into three phases:
+      - Each emphasising:
+        - Communication
+        - Metric tracking
+        - Ensuring personnel are:
+          - Informed
+          - Victims are notified
+          - Scope of impact is documented
+        - 1st: Preparation Phase
+          - Occurs before an incident
+          - Requires analysts to identify critical assets
+        - 2nd: Detection + Analysis Phase
+          - Help defenders identify the incident's entry point
+          - Breadth of impact
+          - Potential consequences
+          - Containment methods
+        - 3rd: Containment + Eradication + Recovery
+          - Guide defenders in patching / isolating the attackers' entry point
+          - Plus other similar potential entry points
+          - Increase monitoring
+          - Finally, safely bringing services back online
+    - `Honey-words` - usernames + password for valid but fictional accounts - detecting credential misuse
+
+---
+
+## 1. What Problem Does It Address?
+
+- Research question or aim:
+  - Introduction:
+    - `Do playbook frameworks effectively support the design of usable and useful playbooks that improve incident-response outcomes?`
+- Claimed limitation in previous work:
+  - Abstract:
+    - Incident response playbooks effectiveness has not just been evaluated
+  - Introduction:
+    - No current studies evaluating the playbooks:
+      - Benefits
+      - How they are used in practice
+  - Related Work:
+    - No other research exploring the application of playbooks
+    - Or use of playbook frameworks
+    - Within a real-world information security setting
+    - Found that:
+      - Tailoring the environment
+      - And emphasising communications
+      - Are critical aspects for success (similar to other, not completely related work)
+- Main contribution, in my own words:
+- Relevant page / section:
+
+## 2. How Did They Investigate It?
+
+- Study approach:
+  - Abstract:
+    - Conducted two studies
+    - Aiming to evaluate + design an appropriate incident response playbook
+    - First study:
+  - Introduction:
+    - Two studies, evaluating the following:
+      - 1st:
+        - Usability of frameworks during the playbooks design phase
+      - 2nd:
+        - Process of implemented security controls based on the playbook
+        - How they are applied during an incident response
+      - Partnered with two organisations
+      - Who hadn't previously used playbooks
+      - First study:
+        - Introduced 12 personnel to the `IACD` + `NIST` frameworks
+        - Asked them to design local playbook instances using the frameworks
+        - Then measured their perceptions of each framework:
+          - Usability
+          - Usefulness
+        - Then three experts evaluated each playbook's:
+          - Completeness
+          - Correctness
+      - Second study:
+        - Used the highest scoring playbook from the first study -> `a field deployment`
+        - Then in one of the organisation
+        - Implemented security controls outlined by the playbook
+        - Then conducted three `no-notice` insider threat exercises
+        - That was expected to be triggered using the playbook
+        - `First real-world assessment of playbook utility`
+      - Overall, both studies:
+        - Provided benefits
+        - And challenges using playbook frameworks
+        - In practice
+  - Background and Preliminaries:
+    - Choose two frameworks, selected:
+      - NIST
+      - `IACD`
+      - `SOTER` -> wasn't chosen as:
+        - Not as common as the other two!
+        - Didn't offer free guides + examples
+        - Wasn't focused on creating playbooks!
+      - `MITRE`:
+        - Too similar to `IACD`
+        - Still under development!
+  - Playbook Design and Evaluation -> page 4:
+    - First study ran from September to December 2019
+    - Each participant designed two playbooks for their own organisation
+    - Using the two frameworks + two selected scenarios
+    - Aim -> could they produce complete + correct playbooks effectively and efficiently?
+    - Ethics review board approved the study
+    - Sensitive organisational / participant details were generalised or removed
+  - Playbook Implementation and Use
+    - Second study:
+      - Investigating playbook's performance in incident response
+      - Goal: `Understand whether playbooks developed using the two frameworks could be implemented + used in practice to improve incident-response outcomes`
+      - Process:
+        - Examined how organisations implement + use playbooks
+        - Allowing the authors to make observations
+        - And receive recommendations to apply to playbooks more `broadly`
+      - Field-deployment study: (`December 2019 - March 2020`)
+        - Focus:
+          - Implementation processes required to support the playbook's
+          - Incident detection + response plans
+          - And execution of response plans during an incident
+        - Playbook selection:
+          - Two playbooks that received the highest scores from the expert evaluations
+          - P4's `IACD` -> `brute-force login`
+          - P11's `NIST` -> `credential misuse`
+          - Reasoning:
+            - Provide an upper bound for playbook efficiency
+            - Plus identify challenges that persist even with well-crafted playbooks
+      - Three controlled insider-threat events:
+        - Examining: Measuring usability
+          - Efficiency
+          - Errors
+          - Satisfaction
+    - `Playbook Implementation`
+      - One participant implemented new technical controls
+      - Based on the selected playbook
+      - In order to:
+        - Detect
+        - Respond
+        - To brute-force attacks + misuse of valid credentials
+        - Within their live network
+      - Enabled evaluation during controlled events
+      - Commenting on observations found (prior work hadn't)
+      - Then completed:
+        - A survey about their experience
+        - And an in-depth interview
+        - Focusing on usability of the playbooks
+        - In the context of the frameworks used to design them
+        - Focus: Understand satisfaction from the point of view of the implementer
+        - Using both positive and negative framing for the survey + interview
+        - Aiming to mitigate `social desirability bias`
+    - `Playbook use during incident response`:
+      - Main goal: Evaluate the playbook's usability during an actual incident response
+      - Conducting a no-notice incident response exercise
+      - Trigger the playbook's use
+      - Simulation:
+        - `NDC`'s leader nominated one trusted employee to simulate the insider threat
+        - Scheduling the simulated attacks (no one knew about it)
+        - Incident response exercises:
+          - December 2, 2019 (`IR1 - brute-force`)
+            - Used a script to rapidly attempt logins
+            - Using actual user-level domain accounts
+            - Using randomly generated passwords
+            - Included 50 total login attempts
+            - Across two domain accounts
+          - Credential misuse:
+            - January 13, 2020 (`IR2`)
+            - March 2, 2020 (`IR3`)
+            - Successfully logged into a designated user-level domain account
+            - And configured as a `honeyword` account
+          - Evaluating `NDC`'s ability to use the playbooks over time
+          - Responders were required to log their usage of playbooks
+          - As well as identify any issues they encountered
+        - After each incident:
+          - Participants complete a survey about their experience:
+          - And an in-depth interview with (plus with the insider)
+          - Plus network and system logs related to the exercises
+          - Evaluation:
+            - Usability of the playbooks
+            - Satisfaction
+            - Errors
+            - Efficiency
+            - However, there was limited insight into learnability!
+- Setting: Organisational study -> employees from `NDC` + `SDT`
+- Dataset or participants:
+  - Background and Preliminaries:
+    - Two organisations:
+      - Who have never previously used playbooks or frameworks before
+      - Specialised in digital security
+      - Sent a year developing relationships with the organisations
+      - Referred as in this study:
+        - `Network Defence Centre (NDC)`
+          - Manages networks across multiple countries
+          - Over 600 user accounts
+          - Service-level agreement of `98.9%`
+          - Securing highly-sensitive customer property
+          - 1st + 2nd study: 12 + 13 professionals
+        - `Security Development Team (SDT)`
+          - Develops secure applications
+          - For ~1500 worldwide customers
+          - Building custom solutions with niche requirements
+          - Employs 28 developers
+    - Selected scenarios:
+      - Collaborated with leaders of two organisations over 9 weeks
+      - From the `MITRE ATT&CK` database
+      - Using the following three criteria:
+        - 1st: Both organisations could realistically encounter them
+        - 2nd: Both organisations `should` be able to respond quickly + consistently
+        - 3rd: Neither organisation had a procedure / policy to tackle that specific scenario
+      - Ended up with:
+        - `Brute-force login attempts`
+          - Definition: An adversary attempts to gain unauthorized access by guessing commonly used or randomly generated passwords
+          - Focus: Protecting user-level domain accounts
+          - Initiating Condition: Detection of multiple password-guessing attempts against one or multiple systems
+          - Response: Generate an alert (email / dashboard push notification)
+          - Required actions:
+            - Identify the system(s) being attacked
+            - Identify the potential attack source
+            - Isolate source + victim nodes
+            - Install new sensors for traffic monitoring
+            - Identify compromised accounts
+            - Conduct a root-cause analysis
+            - Perform root-cause mitigations
+            - Restore accounts / services
+          - Playbook's desired end state:
+            - Root-cause is patched
+            - Affected services + accounts are restored
+            - Validate that the playbook satisfies regulatory controls + requirements
+        - `Valid credential compromises`
+          - Definition: When a data breach reveals credentials from one account that can be reused at another site
+          - Focus: Protecting user-level domain accounts from local abuse
+          - Response: Use the NIST playbook (honey-words)
+          - Required actions:
+            - Creation of `honeyword` accounts
+            - Deploying an automated log-event parser
+            - Scanning for login attempts using the `honeyword` account
+            - Then generating alerts if they are found
+            - Human analyst reviews the alert (investigate breadth of impact)
+            - Finally, root-cause analysis
+            - Determining how the domain controller was compromised
+            - And generating a `fingerprint` to check for similar compromises on other systems
+            - Affected accounts are then denied access -> until their passwords are changed
+            - Users must be notified of the compromise / breach
+            - Incident is then fully documented + follow-up on regulatory requirements
+  - Recruitment + participants:
+    - Recruited employees who performed daily security functions
+    - Leaders introduced the study during group meetings
+    - Participation was voluntary + would not affect performance evaluations
+    - Could participate during working hours -> no additional compensation
+    - Participants were told that the study's playbooks would be adopted into daily practice
+    - All 12 designers knew playbooks were an industry best practice
+    - None had previously used one to respond to an incident
+    - At least one year of on-the-job training for their role
+    - Average digital security experience -> `10.6 years`
+    - Sample covered `58%` of NDC + `21%` of SDT's workforce
+    - SDT developers also carried out incident response / triage when needed
+    - Authors considered them representative of junior incident-response professionals
+- Sample size and unit of analysis:
+  - Abstract:
+    - Study 1:
+      - 12 security professionals
+      - Creating two playbooks each
+      - Using two standard playbook frameworks
+      - Evaluated for their accuracy
+    - Study 2:
+      - Observed 5 personnel
+      - Using the previously created playbooks
+      - Against threat exercises within a live SOC
+  - Introduction:
+    - External study found that out of 200 analysts
+    - 140 reported using a playbook during SOC operations
+    - First study:
+      - `12` playbook designers + `3` external expert evaluators = `15` people
+      - Two playbooks per designer -> `24` playbooks
+      - Keep designers + evaluators separate when reporting the sample!
+  - Playbook Design and Evaluation:
+    - Recruited three expert evaluators (`E1-3`)
+      - Expertise requirements:
+        - Used playbooks within real-world environments
+        - More than 5 years of experience within a SOC
+        - Management experience within a SOC
+      - E1: Director of a SOC + 300 employees
+      - E2: `CISO` in one of the largest cities in the US
+      - E3: `CISO` of a major US financial institution
+      - On average, 16.7 years of digital security experience
+      - `Relying on expert reviews for ground-truth evaluation`
+    - `Playbook design`:
+      - Gave 5 participants group-based, in-person instructions
+      - Aiming to familiarize them with using `IACD` + `NIST` frameworks
+      - Using an example scenario (responding to `spearphishing` links)
+      - Presentation:
+        - Presented step-by-step instructions for each step or phase
+        - Of the relevant framework
+        - Collaborative approach for developing response plans for the scenario (each framework)
+        - Discussion on how to improve the co-developed plan
+        - Question + answer `period`
+    - Simulated `playbook design`:
+      - Used the 5 previous participants
+      - Each tasked with designing two incident response playbooks
+      - Using publicly accessible references
+      - And `MITRE ATT&CK` database entries
+      - Control conditions: `Mitigating ordering effects`
+        - Randomised the assignment of the frameworks to scenarios
+        - The order of the framework/scenario pairs that were assigned
+      - Each participant used each framework and each scenario once
+      - Conducted an online survey
+      - Understanding their impressions of playbook design
+      - And participant `demographics`
+      - Followed up by open-ended interviews (30 minutes long)
+      - Aim:
+        - Assess learnability
+        - User satisfaction
+    - Code:
+      - Conducted by two co-authors
+        - Who had prior experience with incident response management
+        - And qualitative coding methods
+      - Analysed data from the surveys + interviews
+      - Creating the codebook incrementally
+      - Applying category labels + discussed between them
+        - Label created: Re-coded previously coded responses accordingly
+      - Code disagreements:
+        - Logged
+        - Resolved by agreeing on a final label
+      - Continued until:
+        - All responses were coded
+        - Disagreements were settled
+        - Codebook was stable
+    - `Playbook evaluation`:
+      - Recruited 3 expert evaluators
+      - With extensive playbook experience
+      - Tasked with grading the playbooks
+      - Addressing:
+        - Learnability (actual)
+        - Efficiency (whether participants were able to fully complete the task within the allocated time)
+        - Errors (correctness) - measured in two dimensions:
+          - Completeness (addresses the incident response task beginning to end)
+          - Accuracy (no unnecessary or incorrect tasks)
+      - Online survey: Anonymised before review
+        - Completed by the previous evaluators
+        - Contained closed + open-ended questions
+        - Gauging whether the playbooks:
+          - Accomplished its goals
+          - Contained enough detail to be implemented within a real environment
+          - Contained any likely sources of error
+        - Each evaluator examined a subset of playbooks:
+          - Due to time constraints while ensuring consistency
+          - 10/24 total playbooks were assigned to two different evaluators
+          - If there was a disagreement on any key attributes
+          - A third evaluator would:
+            - Review the playbook
+            - Response was then used to break the tie
+            - Was only required once
+          - In total 14 playbooks received a single evaluation each
+    - Results:
+      - With the small sample size of 12
+      - Provides the following results of total workforce used during the study period for each framework:
+        - 58% for NDC
+        - 21% for SDT employees
+      - However, due to the small size
+      - Statistical comparison wasn't possible
+- Baseline / comparison conditions:
+  - Changed? Framework + scenario used for each playbook
+  - Kept consistent? Each designer worked within their own organisation + produced two playbooks
+  - Table 1 -> lists assigned framework / scenario order
+    - `N` = NIST; `I` = `IACD`; `BF` = brute force; `CM` = credential misuse
+    - Do not assume random allocation from this page alone
+- Ground truth or assessment criteria:
+  - Three external experts assessed playbooks for completeness / correctness
+  - Detailed scoring procedure -> not covered on page 4
+- Evaluation measures:
+  - Usability based on Nielsen's approach:
+    - `Learnability` -> ease of first-time use
+    - `Efficiency` -> completing tasks in a timely way
+    - `Errors`
+    - `Satisfaction`
+  - Excluded `memorability` -> usability after a period without using the framework
+  - Participants' perceptions + experts' assessment of the resulting playbooks
+- Identified limitations:
+  - Playbook Design and Evaluation:
+    - Recruitment material:
+      - Explains the studies purpose
+      - May have caused self-selection bias
+      - As those most interested in the study topic
+      - Would opt to participate
+      - Therefore, participants may have been more engaged in the process
+    - Results:
+      - Exhibit `demand` characteristics
+      - As participants are more likely to respond positively
+      - Due to close interaction with researchers
+      - This is mitigated through the use of online surveys:
+        - To promote candid feedback
+        - And used both positively and negatively-framed questions
+        - To ensure participants could provide both perspectives
+  - Playbook Implementation and Use
+    - Halfway through their study (1 years worth of work)
+    - SDT legal advisors revoked their permission
+    - To modify network monitoring solutions
+    - Resulting in no SDT employees to participate in the second study
+    - However, they were still able to use P11's playbook within `NDC`
+    - Because:
+      - Scored well on the expert evaluation
+      - Contained fine-grained details
+      - Easily be implemented within `NDC`
+      - Due to neither organisation having pre-existing solutions in place
+- Considerations:
+  - Ethical:
+    - Simulation of real-world attacks (Second study)
+    - Risk:
+      - May create unnecessary stress
+      - Or cause senior personnel to make unnecessary decisions
+    - Mitigations:
+      - Got the insider to immediately
+      - Inform participants who detected the event
+      - That it was just an exercise
+      - Labelling both verbal and written communication with `EXERCISE`
+      - Indicating that it wasn't a real event! (common practice at `NDC`)
+      - Told it was an exercise but not a part of the playbook study!
+      - Conducted the studies when `NDC` was `fully staffed`
+    - Participants performance were:
+      - Not used to inform annual performance reviews
+      - And instead to treat the exercise as a learning opportunity
+      - Improving institutional practices
+    - Finally:
+      - Debriefed participants
+      - Explained the nature of the study
+      - And providing them with the opportunity to withdraw their data from the study (none did)
+      - Approved by their own ethics review board!
+  - Limitations:
+    - Conducted with only one partnering organisation + 5 participants
+    - Sample size:
+      - Only able to test a few playbooks crafted
+      - From the previous study
+      - Chose the two best playbooks
+      - In order to have the best chance to demonstrate both:
+        - Strengths
+        - Weaknesses
+
+## 3. What Did They Find?
+
+### Finding 1
+
+- Main finding, in my own words:
+  - Abstract:
+    - From the two studies creating the playbooks
+    - Found that they `lacked sufficient detail` for real-world use
+    - Particularly for more junior analysts
+  - Introduction:
+    - Results from the two playbook studies:
+      - NIST framework: Showed more `fine-grained` details for incident responses
+      - `IACD`: Allowed analysts to identify tasks that need to be performed
+      - Both considered:
+        - Easy to learn
+        - High error rates!
+      - The `high-scoring` playbook: Participants struggled!
+      - Then re-designed it: Third exercise was more successful!
+    - Observations:
+      - Well designed playbooks managed to achieve the goal of:
+        - Simplifying
+        - And supporting incident responses!
+        - However:
+          - Further evaluation
+          - Investment is needed!
+  - Playbook Design and Evaluation:
+    - Found that most participants considered the frameworks easy to use
+    - About half of the playbooks were rated as `insufficiently detailed` for real-world use
+    - Not too detailed -> they were missing enough detail to support practical use
+    - Source: Section `3`, page `4` -> summary; detailed results come later
+    - Study reasoning:
+      - Attempting to identify both benefits + shortcomings
+      - Of each framework + playbook frameworks in general
+    - First study's results:
+      - Includes:
+        - Participants feedback on the playbook design process
+        - Expert evaluation of both accuracy + completeness of the designed playbooks
+      - Assigned tasks:
+        - `IACD`: Averaged `32.8 minutes` (`σ = 6.1`)
+        - `NIST`: Averaged `42.1 minutes` (`σ = 7.4`)
+        - Acceptable for learnability + efficiency for the completion of complex tasks
+        - And there was no noticeable difference in time completion based on order
+      - Overall:
+        - Participants said they `favored` the playbook's design frameworks
+        - And their ability to assist with incident response efforts
+        - Appreciating:
+          - Thinking proactively
+          - And identifying solutions to realistic threats they might face
+        - However, the experts evaluations suggested
+        - That about half of the designed playbooks were insufficient
+    - `IACD` feedback:
+      - Participants identified both positive and negative features
+      - Visualisation:
+        - Most benefiting attribute: Being able to graphical depict the required task
+        - As being able to visually distinguish
+        - Between human and automated tasks
+        - Helped them focus on their roles during incident responses
+        - And better understand how to leverage automated systems
+        - Finally, ensuring that they were compliant with mandatory controls
+      - Lack of experience:
+        - Helped them to be able to organise their thoughts
+        - By guiding them through the problem-solving process
+        - And allowed junior defenders to be able to execute something
+        - Without having to reach out for guidance from a senior defender
+        - Especially when a speedy response is needed!
+      - Difficulty with grouping activities:
+        - Problem with grouping similar activities + functions
+        - As `IACD` doesn't provide a list of common groups to choose from
+        - Therefore, requiring users to determine their own groupings
+        - Meaning that for example (`P8`) spent an hour just attempting to identify which grouping to use!
+      - Lack of detail + contingencies
+        - Participants felt the resulting playbooks
+        - Were too `abstract` for technicians to follow during an incident response
+        - Due to the lack of detail that comes with visualisation / diagrams
+        - Identifying the need for documentation to go along with it
+        - As they never felt confident `they had provided enough information`
+      - Being able to identify the most important step: `Initiating condition`
+        - 10/12 of the participants agreed it was the most important step
+        - Failure to do this crucial step:
+          - Would result in either significant delays
+          - Or prevent the incident response
+      - `Playbook designers must be concise yet descriptive terms to cue defender actions`
+      - The least important step: `Regulatory requirements`
+        - 8/12 participants identified it
+        - Saying that:
+          - It was either irrelevant to their job role
+          - Or it was someone else's responsibility
+        - `Less of an issue than actually solving the problem!`
+        - Aligns with prior work -> views `compliance as inhibiting security`
+    - `NIST` framework:
+      - Participants identified both positive and negative features
+      - Easy to understand:
+        - Very clear on what steps needed to be taken
+        - And what outputs are expected after each step
+        - As the resulting text `could be passed onto anyone to help them perform initial triage`
+      - Prompted for more detail:
+        - Like how the framework prompted them
+        - To provide as much detail as possible for response actions
+        - Fine-grained details -> reduce uncertainty during response actions
+        - Rather than requiring novice
+        - To figure out `on the fly` how to implement abstract instructions
+        - Detail-oriented design of the framework
+        - Would help security engineers to understand + implement controls or systems requirements using the playbook
+      - Supports proactive planning, participants feedback:
+        - Allowed them to think about problems before a full-blown crisis occurred
+        - Offered an option to:
+          - Identify possible solutions
+          - Identify gaps in technology
+          - Have an initial plan in place for handling the situation
+      - Difficulties in being to pick the framework:
+        - Being able to quickly pick it up
+        - Due to the lack of visual aids
+        - Suggestions:
+          - Adding a headline-style title
+          - Executive summary
+          - Visual cues to the NIST playbook
+      - More detail may be needed:
+        - 5/12 participants wanted the framework
+        - To require even more `fine-grained` details
+        - Too open-ended
+        - Wanted to be prompted for each command executed
+        - Rather than requiring them to reference another guide / memorise the command
+        - Didn't prompt for decisions + branching plans
+        - To account for incident variability
+        - Plus didn't account for partially-completed tasks
+      - Challenge, examples + instructions:
+        - Too abstract to be able to understand
+        - What is required for each step
+      - Most important step: `Detection + Analysis`
+        - 5/12 rated it as the most critical response step
+        - And indicated that knowing a security event is underway
+        - And that action is need is invaluable for defenders
+      - Overall, participants were:
+        - Looking for detailed
+        - Pre-planned responses
+        - That account for branching investigation paths
+    - Expert evaluation:
+      - Overall:
+        - Lacked sufficient detail
+        - The amount of experience did not impact accuracy
+      - Assessed:
+        - `IACD`:
+          - 6/12 playbooks
+          - Averaged: 2.71/5 (`σ = 1.40`)
+        - `NIST`:
+          - 5/12 playbooks
+          - Averaged: 3/5 (`σ = 1.57`)
+      - Common themes identified:
+        - `Missing implied tasks`: Necessary for the defensive strategy to succeed
+        - `Imprecise language used` -> `may cause delays`
+          - 3 `IACD` + 4 `NIST` playbooks
+          - All contained imprecise language / instructions
+          - That could cause delay in response efforts
+        - `Missing essential communication`
+          - Sufficiently detailed playbooks should include:
+            - A name
+            - Their position
+            - Email address
+            - And phone number
+          - On who to contact during different circumstances
+          - Playbooks: Include `fill-in-the-blank` forms for communicating must-know information
+          - To be readily available during a crisis
+        - `Missing human in the loop`
+          - `IACD` = 2 + `NIST` = 2
+          - Emphasis on the importance of a `human decision maker`
+          - Rather than relying on automation!
+        - `Too linear`
+          - Specifically in the `IACD` cases
+          - Didn't take into account actions
+          - That could be done in parallel (human + automated systems)
+          - Reasoning:
+            - Step 3 + 4 of `IACD`
+            - Asks designers to order tasks + group by function
+            - Leading to the loss of planning parallel tasks
+        - `Some include details and best practices`
+          - `IACD` = 2 + `NIST` = 4
+          - Contained high-quality, fine-grained details
+      - Summary:
+        - The two frameworks examined only have `moderate usability`
+        - Only half of the generated playbooks
+        - Were sufficiently completed and correct for real-world use
+        - Benefits:
+          - Importance on identifying the triggering action
+          - Visual process overview (`IACD`)
+        - Limitations:
+          - Wanted detailed checklists
+          - Wanted to be required to provide even more detail (`NIST`)
+  - Playbook Implementation and Use:
+    - Overall, from the two studies:
+      - Provides a `holistic` + end-to-end view of:
+        - Designing
+        - Implementing
+        - Using playbooks for incident responses
+      - Advantages of this approach:
+        - Increases validity
+        - Take advantage of the difficult-to-negotiate organisational partnerships
+      - Limitations:
+        - Second study relied on the first study!
+      - Provides a significant first contribution to this area of study!
+    - Observations about the use of playbooks in order to:
+      - Implement new security controls based on the playbook
+      - And use a playbook during an incident-response event
+      - Based on:
+        - Observations
+        - Surveys answers
+        - Logged digital security artefacts throughout the network
+      - Reporting:
+        - Participants demographics
+        - Feedback on implementing security controls
+        - Feedback on using playbooks during three incident response events
+      - Providing the first structure evaluation of playbook usability!
+    - `IR1 outcomes`:
+      - No-notice brute-force login attack against two user accounts
+      - P4:
+        - The one who developed the playbook being tested
+        - First to detect the event
+        - Notified his supervisor about the incident
+        - Within 10 minutes after the attack was executed
+      - P3: Then detected the incident two minutes later.
+      - Then the supervisor:
+        - Informed both of them that it was an exercise
+        - And that they were to finish investigating the incident independently
+        - Without informing other technicians
+      - After an hour, both participants:
+        - Successfully identified the point of origin of the attack
+        - Recommended removing the infected system from the network
+        - Identified the person using the now-quarantined system
+        - Finally, notifying the physical security team about the insider threat
+      - P2:
+        - Did not detect the attack until 14 days later!!!
+        - P3&4 left all attack logs in place
+        - In order to give P2 more chance to detect the attack in the future
+        - Plus allowed them to assess P2's response decisions
+        - The alert appeared 19 times on P2's dashboard
+        - But did not recognise it!!!
+        - Took him 335 hours total to go from: Attack -> Finalised Report
+    - `IR1 feedback`:
+      - P3 & 4 evaluated how the playbook affected their success
+      - Both agreeing that helped guide them to correct actions
+      - But credited their experience, rather than the playbooks
+      - For the successful outcome
+      - Having two playbooks available
+      - Lead to a delay in their response
+      - As they were faced with a stressful situation
+      - Help if there was TOC / headers! -> to choose the correct playbook
+    - `IR2 outcomes + feedback`
+      - P2 & 3 participated
+      - Credential-misuse event (Jan 2020)
+      - P3:
+        - Successfully responded within 65 minutes
+        - Similar to `IR1`
+      - P2:
+        - Failed to recognise the attack
+        - Closed the event after 11 days of not noticing the attack!
+    - `Resetting after failure`:
+      - After `IR1/2`
+      - Worked with `NDC` to revise the playbooks
+      - Applying feedback from the first and second study
+      - Aiming to address three concerns:
+        - Playbooks contained insufficient detail for use during incident response
+        - Too much experience required to use the playbooks properly
+        - Being able to identify a playbook trigger was the most critical challenge
+      - `NDC` participants were tasked with improving both playbooks, by:
+        - Adding details appropriate for use by an entry-level technician
+        - Including click-by-click instructions for GUIs and specific text for CLI
+        - Creating complementary guides alongside the playbooks
+        - Changes made:
+          - Added a TOC
+          - Bolded titles for each playbook
+          - Included summaries for the intention of each playbook
+    - `IR3 outcomes and feedback`:
+      - P2 & 13 participated (P13 - joined two weeks prior to `IR3`)
+      - Credential-misuse (March 2020)
+      - Successfully detected:
+        - P2 in 3 minutes
+        - P13 in 5 minutes
+      - Responded within the 140-minute threshold:
+        - P2 in 90 minutes
+        - P13 in 104 minutes
+      - Summary:
+        - When playbooks include sufficient details
+        - Additional practices and orientations
+        - They are useful to help junior analysts with incident responses
+      - Future work:
+        - Identify which different elements
+        - Can be implemented to improvement are usefulness
+  - Discussion and Conclusions
+    - Was the first structured evaluation of:
+      - Playbook framework usability
+      - Playbook effectiveness within an enterprise environment
+    - Findings:
+      - Playbook frameworks are `moderately` usable for
+      - Technicians designing playbooks
+      - Still a need for tailoring them
+      - In order to meet the goal of helping technicians
+      - Implement the associated security controls
+      - Then being able to respond to the incident
+      - Importance of specific information that current frameworks / playbooks don't have
+    - Suggestions: Making them more useful, prompt for inclusion
+      - `Easy to select and comprehend`:
+        - Usable during stressful situations
+        - Must include:
+          - TOC
+          - Bolded titles
+          - Summaries
+          - Helping analysts to be able to quickly select
+          - The appropriate playbook for a given situation
+      - `Playbooks should provide details`:
+        - Including highly-detailed instructions is critical
+        - Providing detail on:
+          - Implementation of required security controls
+          - And for incident responses
+        - An including examples on:
+          - Both sufficient
+          - And insufficient levels of detail
+      - `Links to external resources`:
+        - Participants consistently asked for more detail
+        - Too much detail: Slow response time
+        - Mitigation:
+          - Include links and references to external sources
+          - Such as best-practice repositories
+        - Future work is needed to explore the appropriate balance!
+      - `Playbooks should prompt for regular communication`:
+        - Should prompt users about:
+          - What information to record
+          - And who to inform and when
+        - Such as: Fill-in forms
+        - Improving communication
+        - Through templates + examples!
+      - `Playbooks should provide structure guidance for task grouping`:
+        - `IACD` - difficulties with grouping tasks together
+        - As instructions left the choice of grouping open-ended
+        - Providing little guidance on how to identify + label groups
+        - Improvements:
+          - Multiple-choice options for category selection
+          - Guidance with more detailed prompts
+          - Annotated training examples with explanations
+      - `Playbooks should support non-linear actions`:
+        - Prompt designers to plan for non-linear actions, by:
+          - Accomplishing tasks in parallel
+          - Accounting for multiple scenarios that may occur during responses
+          - Like:
+            - Offering best practices
+            - Adversarial actions - maintaining momentum during investigations
+      - `Playbooks should state intent, not just actions`:
+        - Including the intent associated with every task within the playbook
+        - Helping users understand:
+          - Why a task is relevant
+          - Prompting initiative
+          - And improving overall response efforts
+          - `Intent specification`:
+            - Help analysts both understand + meet requirements
+            - When implementing automation solutions based on the playbook design
+            - And is able to meet the specification by using frameworks
+    - `Improvements to organisational processes to support playbook adoption`:
+      - `Initiating alerts should be meaningful and noticed`:
+        - Analysts MUST be able to both identify + understand the initiating condition
+        - Otherwise, the rest of the investigation is irrelevant!
+      - `Tabletop exercises should be conducted to identify playbook gaps`:
+        - Iteratively updating each playbook until
+        - It is sufficiently detailed
+        - And tailored to the environment it is applied in!
+        - Validating that the playbook is complete
+        - Containing all the necessary `policies` + `procedures`
+        - Enabling incident response!
+      - `Improving perceived playbook usefulness can fuel adoption`:
+        - `If playbooks do not feel useful, they'll never be used`
+        - Improvements -> Is used!
+        - Ways to show off the playbooks:
+          - Mentorship programs
+          - Peer partnering
+          - Continual reinforcement
+      - `Organisational constraints' impact on playbook design and use should be considered`:
+        - Must consider both organisational concerns + processes
+    - One year post studies:
+      - Reconnected with `NDC` employees
+      - To check how things are going
+      - Results:
+        - Playbooks are used daily for network defence operations
+        - Useful for on-board new employees
+        - Developed seven additional playbooks
+        - For scenario that defenders are likely to encounter
+        - Used for routine familiarisation training each month
+        - However:
+          - They have not conducted any
+          - Additional incident response exercise
+          - Since the study concluded
+- Future Work:
+  - Impact on results depending on:
+    - Organisation's size
+    - Cultures
+    - Existing security technologies
+    - Level of experience across the board
+  - Comparison of frameworks:
+    - Using larger sample sizes
+    - With more experimental control
+    - But would mean the sacrifice of
+    - Some ecological validity
+  - Evaluation of new vs current playbooks:
+    - Gauging whether it is beneficial to either creating a new playbook
+    - Or using an existing one
+  - Automation of manual tasks:
+    - Figure out how to automate manual + repetitive tasks
+
+### RQ1 — Literature and Design Justification
+
+- Supported limitation + source location -> design / evaluation decision it informs:
+  - Experts found insufficient detail in `6/12 IACD + 5/12 NIST playbooks`
+  - Missing verification steps + communication instructions could undermine responses
+  - For SentinelIR -> provide clear investigation steps, conditional actions + relevant follow-up
+- What would SentinelIR still need to test?
+  - Whether the guidance provides enough detail for cybersecurity students
+  - Whether users produce more appropriate + complete plans with guidance
+
+### RQ2 — Detection Using Combined Logs
+
+- Direct comparison or indirect evidence?
+  - No direct evidence for the combined-log comparison
+  - Authentication scenarios provide background context only
+- Implication for log sources / scenarios / thresholds / evaluation:
+  - Brute-force + credential-misuse scenarios may inform scenario selection
+  - Does not establish which log sources or thresholds SentinelIR should use
+  - SentinelIR still needs its own access-only versus combined-log evaluation
+
+### RQ3 — Investigation and Response Guidance
+
+- Implication for guidance / response-plan assessment:
+  - Make the initiating condition clear -> why this guidance applies to the alert
+  - Include enough practical detail + explain the purpose of response actions
+  - Assess `completeness` + `accuracy` using predefined, scenario-specific criteria
+  - Collect perceived usefulness separately from assessed plan quality
+  - Successful responses followed several changes, including practice + mentoring
+  - Therefore, do not assume guidance alone caused the improvement
+- Does it assess users' plans, tool outputs, behaviour or opinions?
+  - Plans -> experts assessed participant-created playbooks
+  - Behaviour -> observed responses during three incident-response exercises
+  - Opinions -> surveys + interviews about usability and usefulness
+  - Does not evaluate generated tool responses against reference answers
+
+## Final Takeaway and Next Action
+
+- One-sentence takeaway -> contribution + what remains unproven:
+  - Playbooks can appear usable while lacking the detail needed in practice -> this informs SentinelIR's guidance and assessment criteria, but does not prove that its guidance will improve users' response plans.
+- Role in my review:
+  - Key RQ3 source for response-plan assessment + practical guidance limitations
+  - Supporting RQ1 source for design and evaluation decisions
+- Matrix updated: `Yes`
+- Relevant connection added to synthesis notes: `Yes`

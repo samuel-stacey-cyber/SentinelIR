@@ -7,7 +7,7 @@
 - Venue:
 - Source type: `Journal article`
 - DOI / link: `10.1016/j.cose.2021.102535`
-- Reading status: To screen / Abstract screened / Partially read / Read sufficiently for review
+- Reading status: `Read sufficiently for review`
 - Sections read:
 - Date notes last updated:
 

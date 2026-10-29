@@ -29,6 +29,8 @@ Include `study goals` -> referring back to the original research question!
 # Notes
 
 Making `HTTP log analyser` a big point -> main thing -> comparison against other `HTTP` log analysers as well as for other log analysers analysing other types of logs -> other types -> layout the different types of log analysers -> why I choose `HTTP`
+Gantt chart
+Risk assessment - presenting issues faced throughout + difficulties + risk matrix as well!
 
 ## P01
 Remembering that an alert is a common false positive
@@ -36,8 +38,8 @@ Always refer back to research questions -> when talking about the process you to
 Refer back to previous or future parts when speaking / comparing something -> and how it changes compared to this specific thing! -> plus refer to limitations!
 Ensure that studies / data collected are consistent and referable!
 Explain why something had to change / didn't happen the way it was intended or happened in a previous example!
-Multiple studies -> try to use the same data -> providing comparable data + ensures that the original data was `true` -> allows for a comparison of data (another talking point)
-When having two sources of `data` -> make them disjointed (unlinked) to provide different `sides of the street`
+Comparable conditions -> use the same underlying activity where appropriate -> supports comparison, but does not prove the labels are correct!
+RQ2 log sources -> corresponding evidence about the same activity; keep tuning and final evaluation data separate where possible!
 Ethical considerations -> use the same throughout + explain them + link them back when another one is used!
 Evaluation strategy -> referring back to the original research questions!
 Comparison of tables / studies -> how they differed / similar
@@ -229,3 +231,78 @@ CWA is `mostly bound by the highly influential approach`
 Playbooks are insufficient for the needs of SOC's
 SOC's deal with so many factors -> difficult to balance them all at once!
 `Is a new role needed within a SOC?`
+
+## P06
+Papers to review from this paper:
+- https://ieeexplore.ieee.org/abstract/document/8806735
+- https://www.usenix.org/conference/usenixsecurity22/presentation/sanusi-bohuk
+Password guessing -> an important account-compromise threat; avoid claiming it is the single most effective cause!
+Credential stuffing -> use of previously breached credentials on other applications
+`User risk profiles`
+`Gossamer`
+`Arana`
+`Agglomerative clustering`
+`attack campaigns` -> set of login request likely to be submitted by the same attacker
+`Low and slow` approach -> by submitting a low number of requests per day at a slow rate
+- `Use a small number of guesses per target account (low)`
+- `Per unit time (slow)`
+Don't just focus on the high volume of IPs / same IP -> look for `low volume, targeted attacks`
+`Breach alerting APIs` -> Most compromised users, also had their passwords in known breaches -> `[22, 27, 43, 45]`
+Ways of tackling compromise -> consider `rate limiting` + `2FA`
+Changing the destination URL -> attacker targeting behaviour, not a prevention technique!
+`Distributed attacks` -> requests spread across multiple IPs
+`Low-and-slow attacks` -> fewer requests over long periods
+`natural lanaguage processing techniques`
+`Credential tweaking attacks` -> submitting slight variants of breached passwords
+`Schechter et al. [39]` -> `StopGuessing: Using Guessed Passwords to Thwart Online Guessing`
+`Privacy-preserving data structures` -> `Binomial ladder filter`
+Attackers can `spoof push-based 2FA` -> can hide it by sending them soon after the victim has logged in!
+Have a look into their previous work + maybe be able to pull over points for SentinelIR! -> `Gossamer` `Gossamer: Securely Measuring Password-based Logins`
+Secure storage techniques:
+- Submitted passwords:
+  - Encrypted
+  - Stored in a `in-memory database`
+  - Then cryptographically erased every 24 hours
+- Usernames
+  - Deterministically encrypted
+`used a machine only accessible to a subset of researchers logging in from a specific computer in the university network and requiring a strong password and 2FA for acces`
+What is a `Client user agent string` -> `a short piece of text that a web browser or client application automatically sends to a web server in every HTTP request`
+Ways the used to try to predict maliciousness:
+- Linear regression -> poor precision in this experiment with imperfect proxy labels -> not a general judgement about the method!
+- Decision tree
+- Random forest
+- Logistic regression
+- SVM models
+`Silhouette score` -> `a metric used to evaluate the quality of clustering models like K-Means by measuring how well each data point fits its assigned cluster compared to other clusters`
+Non-existent username -> possible suspicious signal, but legitimate typing mistakes can also cause it!
+`Horizontal attack`
+Preventions: disallow both popular + weak passwords!
+`BlackBox API`
+`HIBP`
+Minimising false positives:
+- Choose aggressive thresholds
+- Evaluating threshold's effect
+
+P06 -> implications for SentinelIR:
+- Test benign lookalikes -> mistyped usernames + repeated legitimate failures
+- Record scenario ground truth separately from detection rules
+- Distinguish `suspicious activity` from `confirmed compromise` in alerts + guidance
+- Test added authentication fields -> do not assume more data automatically improves detection
+- Thresholds -> evaluate missed attacks as well as false alarms
+- Password-storage notes above describe Gossamer -> not a plan to collect participants' passwords in SentinelIR
+- Keep clustering as literature context unless justified within scope -> no requirement to rebuild `Araña`!
+
+## P07
+Playbook benefits, potentially good ideas for the response-guidance part:
+- Checklists are useful!
+- Communication templates!
+`CISA`
+`The NIST Computer Security Incident Handling Guide` - emphasize speed of recovery and restoration of availability
+`Integrated Adaptive Cyber Defense` - asks users to consider how tasks could be automated
+`SOTER` - wasn't selected as other two were more common!
+`Honey-words` - usernames + password for valid but fictional accounts - detecting credential misuse
+`Playbook designers must be concise yet descriptive terms to cue defender actions`
+Evidence-linked response plans, must include:
+- TOC
+- Boldface titles
+- Summaries!

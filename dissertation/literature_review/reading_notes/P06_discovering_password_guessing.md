@@ -1,0 +1,637 @@
+# P06 — Discovering and Characterizing Password Guessing Attacks in Practice
+
+## Reference and Reading Status
+
+- Authors: `Islam, Mazharul`, `Bohuk, Marina Sanusi`, `Chung, Paul`, `Ristenpart, Thomas`, `Chatterjee, Rahul`
+- Year: 2023
+- Venue: `32nd USENIX Security Symposium (USENIX Security 23)`
+- Source type: `Conference paper`
+- DOI / link: https://www.usenix.org/conference/usenixsecurity23/presentation/islam
+- Reading status: `Detailed reading completed`
+- Sections read: `ALL`
+- Date notes last updated: 26/10/2026
+
+## Discovery
+
+- Search date: 26/10/2026
+- Search platform / discovery method: Google Scholar search engine -> `USENIX`
+- Exact search terms, if applicable: `discover login detection analysis` (Google Scholar) -> `USENIX`
+- Search log entry: 06
+
+---
+
+## 1. What Problem Does It Address?
+
+- Research question or aim:
+  - Introduction:
+    - Development of a new analysis pipeline: `Arana`
+    - Focusing not just on individual requests
+    - But set of login requests from the same IP address within a day
+      - Allows patterns to emerge from sufficient signals!
+    - Created:
+      - Application-specific filtering
+        - Likely-benign login request sets -> `custom heuristics`
+        - Example:
+          - Filtering out IP addresses with high login success rates
+      - Clustering
+      - Manual analysis approach
+  - Background and Related Work:
+    - Their topic / aim:
+      - `Characterizing password guessing attacks as seen by login services`
+    - Goal:
+      - Like to know when an attacker has successfully guessed a users' password
+      - Allowing the IT team to be able to take preventative steps
+        - Like changing the password for that account
+        - And apply to other accounts with / similar passwords
+- Claimed limitation in previous work:
+  - Introduction:
+    - There has not been any `in-depth` studies of attack behaviour from login services
+    - Their previous work:
+      - Designed a new login service tool called `Gossamer`
+      - Recording information about login requests
+      - Deployed across two universities -> 7 + 3 months!
+      - Able to identify three obvious + high-volume attacks
+      - Open question: `How to find and characterize more attacks?`
+      - Detection methods / parameters:
+        - `Flag IP addresses` -> lead to many missed attacks!
+    - Unable to use `supervised machine learning` for this `setting`
+  - Background and Related Work:
+    - `Measurement studies on user passwords`:
+      - User behaviour -> password choice!
+      - Simulation of login services
+      - Password breach data -> characterize aspects of user password selection
+      - `Gossamer` system study, used to measure:
+        - User password strength
+        - User password submission behaviour
+        - Observed by the `single-sign on (SSO)` login services
+        - Across two universities
+        - This paper reuses the earlier datasets to focus on malicious login behaviours
+    - `Password guessing attacks`:
+      - Focused on assessing whether users are selecting passwords
+      - That resist various types of guessing attacks
+      - As well as a focus on `offline password cracking`
+      - Using hashes found in exposed password hash databases, using tools like:
+        - `Hashcat`
+        - `John the Ripper`
+      - Development of `natural lanaguage processing techniques`
+        - Improving guess generation
+      - Preventions to reduce credential stuffing:
+        - Use of `breach alerting services`:
+          - `HaveIBeenPwned`
+          - `Google Password Checkup`
+          - `Cloudflare's exposed credential checks`
+      - `Online guessing attack`
+        - Attack that remotely attempts to log into a service with guessed credentials
+        - `Password spraying attacks`
+          - By submitting a few very popular passwords
+          - Against many user accounts
+          - Plus `credential tweaking attacks` -> submitting slight variants of breached passwords
+    - `Detecting malicious logins`
+      - Determining which login attempts are malicious
+      - Treat login as a classification problem
+      - By taking into account more than just the correctness of a submitted password
+      - `Freeman et al.`
+        - Used real-world LinkedIn login data
+        - But didn't include password-based features
+        - And didn't report on observed attack campaigns
+      - `Schechter et al.`
+        - Created a malicious login detection system
+        - Utilising password-based features
+        - Differentiating password typos from other failures
+        - Plus using `privacy-preserving data structures`
+          - `Binomial ladder filter`
+          - For detecting frequently used passwords
+        - However used simulated data to argue its effectiveness!
+      - Overall, no prior work has characterized
+      - The behaviour of password guessing attacks from login services
+    - `Two-factor authentication`
+      - Failure of widespread adoption
+      - With high `user friction`
+      - As well as attackers are able to bypass 2FA using:
+        - `Spoof push-based 2FA`
+        - And are able to hide it by sending them soon after the victim has logged in!
+    - `Unsupervised techniques for attack detection`
+    - Authors identify a gap in detailed characterization of attack campaigns from login services -> not an absence of malicious-login detection methods!
+  - Towards Detecting Attack Campaigns
+    - Bootstrapping problem:
+      - Number of login requests were too big for manual analysis by analysts
+      - No clear set of criteria to flag a login request as malicious!
+      - No easy way to correlate a compromised account to a specific login attempt!
+        - Due to compromise databases not including info on specific login sessions!
+      - Lack of information to determine if it is malicious!
+        - Therefore, aim to identify `attack campaigns`
+        - By clustering login requests into groups that are likely to be a part of the same attack campaign
+- Main contribution, in my own words:
+  - Groups login activity into likely attack campaigns -> helps investigate behaviour across IPs + days, with manual checking.
+- Relevant page / section: `Sections 1, 5 + 6`
+
+## 2. How Did They Investigate It?
+
+- Study approach:
+  - Introduction:
+    - Using a manual analysis approach for `Arana`
+    - Unsupervised learning approach:
+      - Agglomerative clustering
+      - Using a custom distance function for login sets
+      - Used to identify clusters of login sets
+      - Can easily be manually analysed to discover `attack campaigns` -> set of login request likely to be submitted by the same attacker
+  - Background and Related Work:
+    - Developed a new approach for:
+      - Detecting + characterizing password guessing attack campaigns
+      - Using `Gossamer` logs
+    - Came back to answer the open question `Gossamer` (previous work) left!
+    - Used a `timestamp-based heuristic` approach
+      - Allowing for correlation between:
+        - Duo prompt
+        - Successful password submission
+  - Campaign Discovery Pipeline:
+    - `Arana` -> `FCA` approach:
+      - Filter
+      - Cluster
+      - Analyse
+    - Goal:
+      - Build a high precision (low false positive) pipeline
+      - That helps discovery of a wide range of attack campaigns
+      - With minimal effort
+  - Heuristic assumptions:
+    - Malicious logins are only a small fraction of the total login traffic
+    - A large fraction of the malicious logins fail
+    - Attackers use automated scripts / tools to minimise time + effort
+    - First step:
+      - Filter out obviously benign behaviours!
+  - Clustering Potentially Malicious:
+    - Agglomerative clustering technique:
+      - Works with non-metric distance function
+      - Starts with each data point (single cluster)
+      - Two clusters will merge: If the distance between two clusters < `threshold`
+      - `threshold` -> adjusting can help avoid clustering together `L` sets
+      - Therefore, showing different login behaviours
+      - `Silhouette score`: `[6]`
+        - U1: 0.19
+        - U2: 0.17
+    - Knee locator method:
+      - The method they used to set the `distance threshold`
+      - Linkage type: `average`
+      - U1: 0.44
+      - U2: 0.51
+    - `logsetsim`:
+      - 240 lines of code written in `Python 3.6`
+      - Four hierarchical levels for the IP feature: `MaxMind GeoIP database`
+      - UA feature: `ua-parser` package
+      - Clustering steps: `sklearn` library -> `optimisation!!!`
+- Setting: `Operational environment` -> retrospective analysis of two universities
+- Inputs / log sources:
+  - Gossamer authentication logs + compromise reports; Duo 2FA logs at U2 only
+- Dataset or participants:
+  - Introduction:
+    - Over 34 million logins requests -> generated by `Gossamer`
+    - Duo two-factor authentication (U2 only)
+    - 2,000 compromise reports
+    - Discovery and characterization of `29 attack clusters` -> from two major universities
+  - Gossamer Logs:
+    - Dataset of login requests
+    - Complied from two universities (U1 + U2)
+  - Attack Campaign Discovered:
+    - 1,717 `L` sets = 366 clusters at U1
+    - 6,408 `L` sets = 640 clusters at U2
+    - Then took the union of `L` sets
+    - And sample a few of the top most interesting clusters
+    - For further manual analysis
+    - Sampled clusters: (`high number of requests / unique usernames`)
+      - U1: 8 clusters with `NR ≥ 1,000 V NU ≥ 1,000`
+      - U2: 12 clusters with `NR ≥ 5,000 V NU ≥ 5,000`
+      - Thresholds:
+        - Determined by manually observing clusters found after the thresholds are set
+        - And do not clearly show malicious behaviour
+    - On average: one unique password request per user
+      - U1:
+        - 9 attack clusters
+        - No targeted attack clusters were identified at U1
+        - Per-cluster averages: 8,432 requests -> 1,294 unique usernames
+        - 41 successful logins
+      - U2:
+        - 20 attack clusters
+        - Discovered 8 clusters
+        - On average 25 unique passwords per user
+        - Per-cluster averages: 14,358 requests -> 7,614 unique usernames
+        - 1,116 successful logins
+- Sample size and unit of analysis:
+  - Over 34 million login requests -> grouped into `IP + day` login sets -> clusters -> manually interpreted campaigns
+  - Keep requests, sets, clusters and accounts separate when reporting figures!
+- Baseline / comparison conditions:
+  - Earlier manually discovered campaigns -> Section 6.1 + Appendix D
+  - Feature-removal + threshold checks -> Appendix C
+  - Not an access-log-only versus combined-log experiment
+- What changed between conditions, and what stayed consistent?
+  - Changed?
+    - Background and Related Work:
+      - Didn't end up having success using `supervised machine learning approaches`
+      - Instead focused on `unsupervised techniques`
+    - Initial Attempts Using Compromise Reports:
+      - Based on identified features
+      - They used `L` sets to have a compromised user account
+      - Later adding `C` an equal number of `L` sets
+        - Not associated compromised account
+        - Labelled as benign
+        - Performing 80/20 training and testing on the combined sets
+      - Then trained using the following to predict maliciousness:
+        - Linear regression
+        - Decision tree
+        - Random forest
+        - Logistic regression
+        - SVM models
+  - Consistent?
+    - Appendix C reanalyses U2 data -> changes features / thresholds, rather than collecting a new test population
+  - Both?
+    - Earlier classifier attempts are exploratory development -> not a clean comparison against independently labelled ground truth or assessment criteria:
+  - No complete independent request-level ground truth -> manual campaign assessment + partial confirmation by security engineers
+  - A compromised account does not label every login to that account as malicious!
+- Evaluation measures:
+  - Cluster characteristics, successful logins + compromise confirmation; silhouette scores describe clustering, not detection accuracy
+  - Early classifier precision / recall use imperfect proxy labels -> do not treat these as final `Araña` performance
+- Relevant page / section: `Sections 3–6 + 8; Appendix C`
+
+### Detection Method — If Applicable
+
+- Detection approach: `Heuristic filtering + agglomerative clustering + manual analysis`
+- What information does the detector actually use?
+  - Login Sets and Features:
+    - Login request parameters used:
+      - Timestamp
+      - Username (encrypted)
+      - Client IP address
+      - Client user agent string
+      - Password's strength?
+      - Edit distance between the submitted password + previous passwords submitted (same IP / username)
+      - Whether it is a successful or failed login (invalid username or password)
+      - Whether the password is a `tweaked` version of breached passwords!
+      - Plus whether they appear in a breach dataset known by `Gossamer`
+    - Grouping, `login set`:
+      - Client IP address + date received
+      - Each set contains all login attempts from one IP on one day
+      - Each login attempt belongs to exactly one set
+      - `Li` -> one login set; `n` -> total number of sets
+      - `Attack campaign`:
+        - Consists of one or more login sets identified as belonging to an attack
+      - Assumption:
+        - All attempts within a login set are either `malicious` or `benign`
+        - Potential limitations -> legitimate users and attackers could share an IP through a VPN / proxy
+        - Authors did not encounter this in their analysis -> separating mixed activity within one set left for future work
+      - Features used to assess whether a login set is potentially malicious:
+        - `16 features` -> 4 nominal (categorical) + 12 numerical
+        - Client -> IP address, user agent + associated ISP
+        - Volume -> number of requests, unique username + average unique passwords per username
+        - Timing -> date + average time between requests and variation in those times
+        - Login outcomes -> proportion of invalid usernames + invalid username-password combinations
+        - Password guessability -> weak passwords, breached credentials + variations of breached passwords
+      - Purpose:
+        - Uses these features together as the basis of detecting attack campaigns
+        - Grouping by IP + date alone does not establish that activity is malicious.
+- What triggers a detection?
+  - Filtering retains suspicious login sets -> clustering groups similar behaviour -> selected clusters manually assessed; a threshold crossing alone does not confirm an attack
+- Aggressive thresholds -> malicious login sets:
+  - U1:
+    - 90th%
+    - `lU1` = 9
+    - `fU1` = 0.77
+  - U2:
+    - 80th%
+    - `lU2` = 6
+    - `fU2` = 0.8
+  - Limitations?
+    - U2: 90th% => `fU2` = 1
+    - Had higher unsuccessful attacks
+    - May miss certain attacks -> reduces recall
+    - Lower thresholds:
+      - Cause benign clusters to be misflagged as malicious!
+      - Cause analysts to potentially lose trust in the tool
+- Definitions:
+  - Normalised difference between two values `x and y`:
+    - `ND(x,y) = |x−y|/(x+y)`
+    - Measures their relative difference -> identical values given `0`, provided the denominator is not zero
+  - Hierarchical back-off distance (`HBD`):
+    - Compares features using a sequence of levels
+    - Starts by checking for a `exact match`
+    - If there is no match -> moves to the next level + adds a dissimilarity cost
+    - Stops when a match is found, including the final catch-all level
+    - More back-off steps -> greater distance -> less similarity
+    - Cost for each step: `e^(−ℓ) − e^(−(ℓ+1))`
+      - `ℓ` = current level
+      - Adds the costs together across the steps taken
+    - IP address levels:
+      - `0` -> same IP address
+      - `1` -> same `/24` subnet
+      - `2` -> same ISP
+      - `3` -> catch-all level when the earlier checks do not match
+    - User-agent (`UA`) levels:
+      - `0` -> identical UA strings
+      - `1` -> same application category: desktop / mobile / unknown
+      - `2` -> same browser category
+      - `3` -> same operating-system category
+      - `4` -> final fall-back when the earlier checks do not match
+    - Date distance:
+      - `1 − e^(−d)` -> `d` is the number of days between the two L sets
+      - Same date -> `0`
+      - One day apart -> approximately `0.63`
+      - Further apart -> distance approaches `1`
+    - Overall distance between `L` sets:
+      - Numerical features -> use `ND`
+      - Nominal features -> use `HBD`
+      - Multiply each feature's distance by its weight, then add the results
+      - Feature weights control how much each feature contributes
+  - Higher-Level Attack Behaviours Observed
+    - Components attacks can choose during an attack:
+      - Types of username-password pairs to submit
+        - Success of the attack depends on it!
+        - Username options:
+          - Username belonging to the university
+          - Breached username-password pair (with / without -> university)
+      - How the pairs are delivered to the target service
+    - Attacker curated a set of usernames
+      - U1: 75% of requests contained a username from the university
+      - U2: 7/20 of the attack clusters contained more than 50% valid usernames
+        - Cluster 10 + 11 totalled 200k requests
+        - Only 286 of them contained a username present at U2
+      - Found in several cases that attempted usernames never actually existed
+      - Most common type of attacks: `horizontal attack`
+        - Targeting many usernames at once
+        - Trying 1/2 passwords per username
+        - Targeted behaviour: loads of passwords against few number of usernames
+        - Results:
+          - Six attack clusters -> 137 users
+          - Each attempted with more than 25 unique popular passwords
+          - However, was unable to confirm whether they used a set of password across each login attempt
+    - How attackers perform attacks on a target service:
+      - First, identify how quickly they can submit all username-password pairs
+      - Without being detected
+      - Attackers will use multiple IP addresses to `parallelize` the attacks
+      - Or spread the attack over a long period of time
+- Was tuning separate from the final evaluation?
+  - No separate held-out evaluation established in these notes -> exploratory threshold selection + sensitivity checks on the study data
+- Main assumptions -> when might these fail?
+  - Mixed benign + malicious activity behind one IP; successful attacks with lower failure rates; limited endpoint coverage
+  - Selected clusters do not establish how many attacks remained undiscovered
+
+## 3. What Did They Find?
+
+### Finding 1
+
+- Main finding, in my own words:
+  - Introduction:
+    - `Arana`:
+      - Effective at detecting attack campaigns like:
+        - Coordinated attacks involving multiple IP addresses
+        - Plus attacks spread over a long period of time
+      - Discovered + characterized a set of `29 attack clusters`
+        - Most of which are `high volume credential stuffing attacks`
+        - Submitting on average one password per targeted username
+        - Found that a fraction of username-password pairs appearing in breaches
+        - `Low and slow` approach -> by submitting a low number of requests per day at a slow rate
+          - Evading countermeasures focusing on individual high volume IPs
+        - Able to uncover hundreds of potential successful logins by attacks
+        - However the usernames weren't flagged already in compromise reports
+      - Low volume, targeted attacks
+        - By focusing on identifiable clusters -> like many requests to individual usernames
+      - Example:
+        - Attack campaign made up of two clusters
+        - Targeted 127 users -> on average 25 guessed passwords per user
+        - Including successful logins -> meaning the attacks work!
+      - 1st:
+        - Credential stuffing attacks are the primary vector for account compromise
+        - Most compromised users in this study also had passwords in known breaches
+          - Supports wider use of breach alerting APIs `[22, 27, 43, 45]`
+      - 2nd:
+        - Microsoft's basic authentication endpoint at `U2` did not support `rate limiting` or `Duo 2FA`
+          - Attackers regularly targeted this weaker endpoint
+        - Changing the `destination URL` allowed attackers to target other organisations using basic authentication
+          - Not a vulnerability allowing attackers to change someone else's login URL!
+      - 3rd:
+        - Detection based only on high numbers of attempts per `IP address` or `username` can miss attacks
+          - `Distributed attacks` -> requests spread across multiple IPs
+          - `Low-and-slow attacks` -> fewer requests over long periods
+        - Authors suggest developing `Arana`-like methods for `near-real-time` detection
+          - Still future work -> not an already validated live detection systems
+  - Gossamer Logs:
+    - Using both timestamp + encrypted username
+    - From Duo request within a two-minute window
+    - Results:
+      - 96.7% were successfully completed
+      - 3.2% were denied
+      - 46 were marked as fraud by the user (< 0.001%)
+    - Figure 1 results:
+      - Average each month:
+        - 190 usernames (0.59%) at U1
+        - 163 usernames (0.28%) at U2
+      - 323 usernames were reported multiple times
+      - 32 were reported for different reasons
+        - On average were compromised 26 days apart!
+      - Found that majority of reports
+      - Were from large-scale automated attacks
+      - U1 -> two different reference times:
+        - Analyst-estimated attack time: 17% reported within an hour; 90% within 61 hours
+        - Last successful login: 4% reported within an hour; 90% within 46 days
+        - These are different approximations -> cannot assume the last successful login was the attack
+  - Initial Attempts Using Compromise Reports:
+    - Classifier based approaches:
+      - Able to identify 23,016 `L` sets
+      - Where IP addresses contacted at least once compromised user account
+      - All models had very bad precision
+      - With the best being `linear regression`
+        - Recall: 0.79
+        - Precision: 0.13
+    - Remaining potentially malicious attacks, by filtering benign `L` sets:
+      - U1: 1,717 `L` sets
+      - U2: 6,408 `L` sets
+  - Analysis of Attack Campaign:
+    - `Arana`'s FCA pipeline:
+      - Identified 29 clusters
+      - As probable attack campaigns
+      - To better understand the attack behaviour -> `subset of the campaigns identified`
+      - Observing a variety of high-level attack behaviour
+  - Higher-Level Attack Behaviour Observed
+    - Use of breach data:
+      - U1: 6/9 clusters
+      - U2: Only 1 cluster
+      - Had 50% of submitted username-password pairs
+      - Present in the breach data used by `Gossamer`
+      - Remaining 22 clusters:
+        - U2: 8 clusters had more than 50% of targeted usernames
+        - From known breaches
+        - Plus only one attack cluster submitted password was found in a prior breach
+    - Use of popular passwords / password-list:
+      - Attack clusters 22 & 23:
+        - More than 81% of submitted passwords
+        - Appeared in the 1000 most frequent passwords
+        - From known breaches (`Gossamer`)
+        - All targeted attacks: 25 passwords per user
+        - U2: Two users were compromised!
+    - Attack using multiple IP addresses:
+      - Identified three large attack clusters
+      - Using more than 500 IP addresses
+      - Plus 5 more clusters using more than 50 IP addresses
+      - Cluster with the most IP addresses used:
+        - Against U2
+        - Clusters 11 & 14
+        - Majority were flagged as `proxies` by `BlackBox API`
+      - Can use multiple IPs to achieve a very fast request rate!
+    -  Duration of attacks, can be:
+       -  Short-lived
+       -  `Bursty`
+       -  Spread across multiple days
+       -  U1:
+          -  Short-lived
+          -  All completed within 19 hours
+          -  Four within 5 hours
+       -  U2:
+          -  Most were high volume attacks (`<5k requests`)
+          -  Spanning multiple days
+          -  Two clusters over 10 + 15 days!
+       -  Detection:
+          -  As the clustering approach combined attack behaviours over multiple days
+    -  `Interarrival time`:
+       - Sending requests too quickly
+       - Can cause trigger alarms / lockouts
+       - Therefore, attackers try to submit requests at a `lower rate`
+       - Both universities:
+         - 4 attack campaigns were submitted using 60 requests per minute
+         - Uses a `soft rate limiting policy` -> account lockout for 15–30 minutes!
+         - No observed attack sent requests fast enough to one username to trigger this lockout
+         - Does not prove attackers deliberately adapted to the policy
+     - Endpoint targeting:
+       - Chooses an endpoint with the least safeguards in place
+       - U2: Most targeted the `Microsoft basic email authentication endpoint`
+       - Suspected reasoning:
+         - Does not support 2FA
+         - Poor (non-existent) rate limiting of requests
+         - Requesting IP seem to be from Microsoft
+         - Slight adjustments to the URL in order to target different organisations!
+   - Discussion:
+     - U1's most common types of attacks used a combination of:
+       - High volume
+       - Distributed
+       - Curated
+       - Short-lived
+       - Credential stuffing attacks
+       - With varying `interarrival time` -> `55ms-108s`
+     - U2's most common types of attacks used:
+       - Credential stuffing attacks
+       - However, varied in:
+         - Distributed
+         - Curated to the university
+         - Short-lived
+         - Low `interarrival time`
+     - Low-volume attacks identified:
+       - 8 total
+       - All curated
+       - Short-lived
+       - Targeted credential stuffing
+       - Varied in the number of IPs used
+     - Limitation:
+       - `Gossamer`'s endpoint consist of:
+         - All login endpoints for U2
+         - Only the main login endpoints at U1
+         - When attackers use different endpoints at U1
+         - They weren't reflected in the `Gossamer` logs!
+     - Investigation:
+       - Looking into the characteristics of password
+       - From the last successful login before a user was reported as compromised
+       - 2% were associated with `breached username-password pairs`
+       - 12% were associated with at least a `breached password`
+       - 19% were associated with a `tweaked password`
+       - U2:
+         - 11% were associated with a `breached username-password pair`
+         - 46% were associated with at least a `breached password`
+         - 1.51% were made with a `tweaked password`
+         - Prevention:
+           - Automatically resetting passwords of users using:
+           - Vulnerable
+           - Breached
+           - Tweaked credentials
+           - Could have prevented multiple account compromises
+       - U1:
+         - 71% of eventually compromised U1 users used a breached password at some point during measurement
+         - Driving a need for `proactive breach alerting services`
+         - Authors estimate potential prevention of 47% of account takeovers -> not a tested intervention result
+     - Use of multiple IP addresses:
+       - From cloud providers + VPNs + network proxies
+       - However, FCA approach was able to identify them!
+       - Therefore, should be taken into account when building defence policies!
+       - Plus the use of `HIBP`
+     - Minimising false positives:
+       - Setting aggressive thresholds
+       - Then evaluating its effectiveness!
+- Supporting result:
+  - 29 selected attack clusters -> 9 at U1 + 20 at U2
+- What does the number measure, and what is its denominator?
+  - Count of identified clusters, not a detection percentage -> total true attack population unknown
+- Conditions under which the finding applies:
+  - Two university environments + available features + selected thresholds + manual investigation
+- Relevant page / table / figure: `Section 5.3; Figure 8; Section 8`
+- Targeted follow-up checks -> not a full read of Section 6.1 / appendices:
+  - Section 6.1: known malicious set missed -> failure rate `0.67`, below filtering threshold `0.77`
+  - Appendix C: removing password-based features retained `16/20` previously identified U2 clusters
+  - This is relative to `Araña`'s earlier results -> not recall against all real attacks
+- Limitations?
+  - Clustering Potentially Malicious `L` Sets:
+    - Open question:
+      - `How to define a distance function that gauges similarity between L sets?`
+  - Real-World Deployment Constraints:
+    - Source: `Section 8`, p. `1032`
+    - Most organisations do not record `password-based features`
+    - Question of whether implementation is `wise or necessary`!
+    - Password similarity statistics:
+      - Requires storing passwords in memory for 24-hours
+      - Less effective for attack detection using the FCA approach -> not completely ineffective!
+    - Password breach statistics were useful for identifying `credential stuffing`
+      - Authors suggest collecting a smaller set of useful password-derived features
+      - Which features best identify different attacks? -> left for future work
+      - Results without password-based features -> signposted to `Appendix C`
+    - Reporting suspected compromises:
+      - U1: `37/41` accounts already identified through other mechanisms
+      - U2: Only `6/1,116` independently flagged beforehand
+      - First reporting round: `373/823` confirmed by security engineers
+      - Remaining `450` could not be fully verified -> insufficient logs
+      - Second round: another `293` usernames -> also insufficient logs to confirm
+      - Suspected compromise does not automatically mean independently confirmed compromise!
+    - Deployment implications:
+      - More detailed + persistent logging could help verification
+      - Uncertain compromise labels make automatic threshold tuning difficult
+      - Required threshold experiments + manual analysis -> additional effort
+- Authors’ interpretation:
+  - Introduction:
+    - Their analysis was able to:
+      - Highlight a number of important takeaways for authentication system designers
+  - Conclusion:
+    - Final results indicate that the clustering approach
+    - Can aid analysts in detecting + labelling suspicious groups of requests
+    - That `may` be a part of the same attack campaign
+    - Providing initial progress towards the future design
+    - And deployment of real-time, automated attack campaign detection tools!
+- My interpretation:
+  - Useful evidence for testing difficult attack patterns + stating detection uncertainty. Results do not show that every compromise was independently confirmed.
+
+## 4. Implications for SentinelIR
+
+### RQ1 — Literature and Design Justification
+
+- Filtering can miss malicious activity + incomplete logs limit verification -> Sections 6.1 + 8
+- For SentinelIR -> include challenging scenarios, independent ground truth + explicit uncertainty
+
+### RQ2 — Detection Using Combined Logs
+
+- Indirect evidence -> motivates testing what extra authentication context contributes
+- Does not compare HTTP access logs alone against access + application authentication logs
+- For SentinelIR -> compare the same controlled activity across both conditions; include benign mistakes + slower attacks
+
+### RQ3 - Investigation and Response Guidance
+
+- Could inform evidence summaries + prompts to verify suspected compromise
+- No controlled assessment of users' response-plan quality -> cannot claim guidance improves plans from this paper
+
+## Final Takeaway and Next Action
+
+- One-sentence takeaway: Campaign-level analysis reveals useful attack patterns, but incomplete labels + feature requirements limit what can be concluded about detection correctness.
+- Role in my review: RQ1 justification + indirect RQ2 evidence; supporting context for RQ3
+- Next action: Use the supported limitations in the proposal -> move to human-evaluation evidence for RQ3
+- Matrix updated: `Yes`
+- Relevant connection added to synthesis notes: Yes
